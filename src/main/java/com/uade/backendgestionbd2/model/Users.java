@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
@@ -29,6 +31,14 @@ public class Users {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Roles role_id; // es un id de la tabla roles
+
+    @ManyToMany
+    @JoinTable(
+            name = "taskAssignments",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private Set<Tasks> tasks = new HashSet<>();
 
     private String nombre;
 

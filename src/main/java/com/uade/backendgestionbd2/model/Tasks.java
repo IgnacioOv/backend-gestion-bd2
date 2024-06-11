@@ -3,6 +3,8 @@ package com.uade.backendgestionbd2.model;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,11 +29,11 @@ public class Tasks {
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users user;
-
     private String status;
+
+    @ManyToMany(mappedBy = "tasks")
+    private Set<Users> users = new HashSet<>();
+
 
     private Date start_date;
 
@@ -40,11 +42,10 @@ public class Tasks {
     public Tasks() {
     }
 
-    public Tasks(Projects project, String name, String description, Users user, String status, Date start_date, Date end_date) {
+    public Tasks(Projects project, String name, String description, String status, Date start_date, Date end_date) {
         this.project = project;
         this.name = name;
         this.description = description;
-        this.user = user;
         this.status = status;
         this.start_date = start_date;
         this.end_date = end_date;
