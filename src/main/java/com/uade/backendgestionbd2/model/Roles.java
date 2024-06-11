@@ -18,14 +18,14 @@ public class Roles {
     @Id
     private int role_id;
 
-    private String roleName;
+    private String role_name;
 
     public Roles() {
     }
 
     public Roles(int role_id, String roleName) {
         this.role_id = role_id;
-        this.roleName = roleName;
+        this.role_name = roleName;
     }
 
 }
