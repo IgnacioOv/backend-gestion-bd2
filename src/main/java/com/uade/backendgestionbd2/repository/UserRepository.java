@@ -4,7 +4,10 @@ import com.uade.backendgestionbd2.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-interface UserRepository extends JpaRepository<Users, Integer> {
-    //Methods
+public interface UserRepository extends JpaRepository<Users, Integer> {
+    // Métodos personalizados si es necesario
+    Optional<Users> findByEmail(String email);
 }
