@@ -4,6 +4,14 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+
 @Entity
 public class Tasks {
 
