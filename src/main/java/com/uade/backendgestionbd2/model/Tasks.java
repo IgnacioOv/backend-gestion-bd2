@@ -29,4 +29,17 @@ public class Tasks {
 
     private Date end_date;
 
+    public Tasks() {
+    }
+
+    public Tasks(Projects project, String name, String description, Users user, String status, Date start_date, Date end_date) {
+        this.project = project;
+        this.name = name;
+        this.description = description;
+        this.user = user;
+        this.status = status;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
+
 }
