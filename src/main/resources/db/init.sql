@@ -10,8 +10,9 @@ CREATE TABLE Users (
                        role VARCHAR(50) NOT NULL CHECK (role IN ('Admin', 'Employee')),
                        nombre VARCHAR(100),
                        email VARCHAR(100),
-                       weekly_hours INT DEFAULT 0
-);
+                       weekly_hours INT DEFAULT 0,
+                       CONSTRAINT email_format CHECK (email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+    );
 
 -- Crear la tabla de proyectos
 CREATE TABLE Projects (
@@ -26,21 +27,34 @@ CREATE TABLE Projects (
 -- Crear la tabla de tareas
 CREATE TABLE Tasks (
                        task_id SERIAL PRIMARY KEY,
-                       project_id INTEGER REFERENCES Projects(project_id),
+                       project_id INTEGER NOT NULL,
                        name VARCHAR(100) NOT NULL,
                        description TEXT,
                        status VARCHAR(50),
-                       assigned_to INTEGER REFERENCES Users(user_id),
                        start_date DATE,
-                       end_date DATE
+                       end_date DATE,
+                       FOREIGN KEY (project_id) REFERENCES Projects(project_id),
+                       CHECK (status IN ('To Do', 'In Progress', 'Done'))
 );
 
 -- Crear la tabla de asignaciones de tareas
 CREATE TABLE TaskAssignments (
-                                 task_id INTEGER REFERENCES Tasks(task_id),
-                                 user_id INTEGER REFERENCES Users(user_id),
-                                 PRIMARY KEY (task_id, user_id)
+                                 task_id INTEGER,
+                                 user_id INTEGER,
+                                 PRIMARY KEY (task_id, user_id),
+                                 FOREIGN KEY (task_id) REFERENCES Tasks(task_id),
+                                 FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
+
+-- Crear la tabla de Asignaciones de Proyectos
+CREATE TABLE ProjectAssignments (
+                                    project_id INTEGER,
+                                    user_id INTEGER,
+                                    PRIMARY KEY (project_id, user_id),
+                                    FOREIGN KEY (project_id) REFERENCES Projects(project_id),
+                                    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
 
 -- Insertar datos de prueba
 -- Insertar datos en Projects
@@ -65,3 +79,8 @@ INSERT INTO TaskAssignments (task_id, user_id) VALUES
                                                    (1, 3),
                                                    (2, 3),
                                                    (3, 3);
+
+-- Insertar datos en ProjectAssignments
+INSERT INTO ProjectAssignments (project_id, user_id) VALUES
+                                                         (1, 3),
+                                                         (2, 3);
