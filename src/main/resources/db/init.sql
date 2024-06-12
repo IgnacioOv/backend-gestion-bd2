@@ -1,62 +1,58 @@
 
--- Crear tablas
+-- Usar la base de datos creada
+\c gestion_bd2;
+
+-- Crear la tabla de usuarios
+CREATE TABLE Users (
+                       user_id SERIAL PRIMARY KEY,
+                       username VARCHAR(50) NOT NULL UNIQUE,
+                       password VARCHAR(100) NOT NULL,
+                       role VARCHAR(50) NOT NULL CHECK (role IN ('Admin', 'Employee')),
+                       nombre VARCHAR(100),
+                       email VARCHAR(100),
+                       weekly_hours INT DEFAULT 0
+);
+
+-- Crear la tabla de proyectos
 CREATE TABLE Projects (
                           project_id SERIAL PRIMARY KEY,
-                          name VARCHAR(100) NOT NULL,
+                          project_name VARCHAR(100) NOT NULL,
                           description TEXT,
                           start_date DATE,
                           end_date DATE,
-                          status VARCHAR(50)
+                          weekly_hours INT DEFAULT 0
 );
 
-CREATE TABLE Roles (
-                       role_id SERIAL PRIMARY KEY,
-                       role_name VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE Users (
-                       user_id SERIAL PRIMARY KEY,
-                       username VARCHAR(50) UNIQUE NOT NULL,
-                       password VARCHAR(100) NOT NULL,
-                       role INT REFERENCES Roles(role_id),
-                       nombre VARCHAR(100),
-                       email VARCHAR(100)
-);
-
+-- Crear la tabla de tareas
 CREATE TABLE Tasks (
                        task_id SERIAL PRIMARY KEY,
-                       project_id INT REFERENCES Projects(project_id),
+                       project_id INTEGER REFERENCES Projects(project_id),
                        name VARCHAR(100) NOT NULL,
                        description TEXT,
-                       assigned_to INT REFERENCES Users(user_id),
                        status VARCHAR(50),
+                       assigned_to INTEGER REFERENCES Users(user_id),
                        start_date DATE,
                        end_date DATE
 );
 
+-- Crear la tabla de asignaciones de tareas
 CREATE TABLE TaskAssignments (
-                                 assignment_id SERIAL PRIMARY KEY,
-                                 task_id INT REFERENCES Tasks(task_id),
-                                 user_id INT REFERENCES Users(user_id)
+                                 task_id INTEGER REFERENCES Tasks(task_id),
+                                 user_id INTEGER REFERENCES Users(user_id),
+                                 PRIMARY KEY (task_id, user_id)
 );
 
 -- Insertar datos de prueba
 -- Insertar datos en Projects
-INSERT INTO Projects (name, description, start_date, end_date, status) VALUES
-                                                                           ('Project Alpha', 'Description for Project Alpha', '2024-01-01', '2024-12-31', 'In Progress'),
-                                                                           ('Project Beta', 'Description for Project Beta', '2024-02-01', '2024-11-30', 'Not Started');
-
--- Insertar datos en Roles
-INSERT INTO Roles (role_name) VALUES
-                                  ('Admin'),
-                                  ('Leader'),
-                                  ('User');
+INSERT INTO Projects (name, description, start_date, end_date, status, weekly_hours) VALUES
+                                                                                         ('Project Alpha', 'Description for Project Alpha', '2024-01-01', '2024-12-31', 'In Progress', 40),
+                                                                                         ('Project Beta', 'Description for Project Beta', '2024-02-01', '2024-11-30', 'Not Started', 30);
 
 -- Insertar datos en Users
-INSERT INTO Users (username, password, role, nombre, email) VALUES
-                                                                ('admin_user', 'admin_password', 1, 'Admin User', 'admin@example.com'),
-                                                                ('leader_user', 'leader_password', 2, 'Leader User', 'leader@example.com'),
-                                                                ('regular_user', 'user_password', 3, 'Regular User', 'user@example.com');
+INSERT INTO Users (username, password, role, nombre, email, weekly_hours) VALUES
+                                                                              ('admin_user', 'admin_password', 'ADMIN', 'Admin User', 'admin@example.com', 40),
+                                                                              ('employee_user1', 'employee_password1', 'EMPLOYEE', 'Employee User1', 'employee1@example.com', 35),
+                                                                              ('employee_user2', 'employee_password2', 'EMPLOYEE', 'Employee User2', 'employee2@example.com', 30);
 
 -- Insertar datos en Tasks
 INSERT INTO Tasks (project_id, name, description, assigned_to, status, start_date, end_date) VALUES
