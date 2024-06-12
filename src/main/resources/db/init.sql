@@ -1,7 +1,4 @@
 
--- Usar la base de datos creada
--- \c gestion_bd2;
-
 -- Crear la tabla de usuarios
 CREATE TABLE Users (
                        user_id SERIAL PRIMARY KEY,
