@@ -1,6 +1,6 @@
 
 -- Usar la base de datos creada
-\c gestion_bd2;
+-- \c gestion_bd2;
 
 -- Crear la tabla de usuarios
 CREATE TABLE Users (
@@ -8,7 +8,8 @@ CREATE TABLE Users (
                        username VARCHAR(50) NOT NULL UNIQUE,
                        password VARCHAR(100) NOT NULL,
                        role VARCHAR(50) NOT NULL CHECK (role IN ('Admin', 'Employee')),
-                       nombre VARCHAR(100),
+                       name VARCHAR(100),
+                       last_name VARCHAR(100),
                        email VARCHAR(100),
                        weekly_hours INT DEFAULT 0,
                        CONSTRAINT email_format CHECK (email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
@@ -17,7 +18,7 @@ CREATE TABLE Users (
 -- Crear la tabla de proyectos
 CREATE TABLE Projects (
                           project_id SERIAL PRIMARY KEY,
-                          project_name VARCHAR(100) NOT NULL,
+                          name VARCHAR(100) NOT NULL,
                           description TEXT,
                           start_date DATE,
                           end_date DATE,
@@ -34,7 +35,7 @@ CREATE TABLE Tasks (
                        start_date DATE,
                        end_date DATE,
                        FOREIGN KEY (project_id) REFERENCES Projects(project_id),
-                       CHECK (status IN ('To Do', 'In Progress', 'Done'))
+                       CHECK (status IN ('To Do', 'In Progress', 'Done', 'Cancelled', 'Waiting'))
 );
 
 -- Crear la tabla de asignaciones de tareas
@@ -60,7 +61,7 @@ CREATE TABLE ProjectAssignments (
 -- Insertar datos en Projects
 INSERT INTO Projects (name, description, start_date, end_date, status, weekly_hours) VALUES
                                                                                          ('Project Alpha', 'Description for Project Alpha', '2024-01-01', '2024-12-31', 'In Progress', 40),
-                                                                                         ('Project Beta', 'Description for Project Beta', '2024-02-01', '2024-11-30', 'Not Started', 30);
+                                                                                         ('Project Beta', 'Description for Project Beta', '2024-02-01', '2024-11-30', 'To Do', 30);
 
 -- Insertar datos en Users
 INSERT INTO Users (username, password, role, nombre, email, weekly_hours) VALUES
