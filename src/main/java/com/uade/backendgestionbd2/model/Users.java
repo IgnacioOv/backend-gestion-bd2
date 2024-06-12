@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.model;
 
+import com.uade.backendgestionbd2.util.Roles;
 import jakarta.persistence.*;
 
 
@@ -7,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Check;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,9 +30,8 @@ public class Users {
 
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Roles role_id; // es un id de la tabla roles
+    @Enumerated(EnumType.STRING)
+    private Roles role; // es un enum Roles
 
     @ManyToMany
     @JoinTable(
@@ -40,28 +41,37 @@ public class Users {
     )
     private Set<Tasks> tasks = new HashSet<>();
 
-    private String nombre;
+    private String name;
 
+    private String last_name;
+
+    @Column(name = "email")
+    @Check(constraints = "email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'")
     private String email;
+
+    private int weekly_hours;
+
+    @ManyToMany(mappedBy = "usuarios")
+    private Set<Projects> projects = new HashSet<>();
 
 
     public Users() {
     }
 
-    public Users(int user_id, String username, String password, Roles role_id, String nombre, String email) {
+    public Users(int user_id, String username, String password, Roles role, String nombre, String email) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
-        this.role_id = role_id;
-        this.nombre = nombre;
+        this.role = role;
+        this.name = nombre;
         this.email = email;
     }
 
-    public Users(String username, String password, Roles role_id, String nombre, String email) {
+    public Users(String username, String password, Roles role, String nombre, String email) {
         this.username = username;
         this.password = password;
-        this.role_id = role_id;
-        this.nombre = nombre;
+        this.role = role;
+        this.name = nombre;
         this.email = email;
     }
 
