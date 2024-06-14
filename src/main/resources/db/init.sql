@@ -8,6 +8,12 @@ CREATE TABLE Users (
                        last_name VARCHAR(100),
                        email VARCHAR(100) NOT NULL UNIQUE,
                        weekly_hours INT DEFAULT 0,
+                       skill_level VARCHAR(50) CHECK (
+                           skill_level IN ('BACKEND_JUNIOR', 'BACKEND_MID', 'BACKEND_SENIOR',
+                                           'FRONTEND_JUNIOR', 'FRONTEND_MID', 'FRONTEND_SENIOR',
+                                           'FULLSTACK_JUNIOR', 'FULLSTACK_MID', 'FULLSTACK_SENIOR',
+                                           'DEVOPS_JUNIOR', 'DEVOPS_MID', 'DEVOPS_SENIOR')
+                           ),
                        CONSTRAINT email_format CHECK (email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 );
 
@@ -70,18 +76,19 @@ VALUES
 
 
 -- Insertar datos en Users con contraseñas encriptadas en Base64
-INSERT INTO Users (username, password, role, name, last_name, email, weekly_hours)
+INSERT INTO Users (username, password, role, name, last_name, email, weekly_hours, skill_level)
 VALUES
-    ('admin_user', 'QWRtaW5fMTIzNDU2', 'Admin', 'Admin', 'User', 'admin@example.com', 40), -- Contraseña encriptada: Admin_123456
-    ('employee_user1', 'RW1wbG95ZWVfMTIzNDU2', 'Employee', 'Employee', 'User1', 'employee1@example.com', 35), -- Contraseña encriptada: Employee_123456
-    ('employee_user2', 'RW1wbG95ZWVfMTIzNDU2', 'Employee', 'Employee', 'User2', 'employee2@example.com', 30), -- Contraseña encriptada: Employee_123456
-    ('user3', 'VXNlcm5hbWVfMTIzNDU2', 'Employee', 'User', 'Three', 'user3@example.com', 25), -- Contraseña encriptada: Username_123456
-    ('user4', 'VXNlcm5hbWVfMTIzNDU2', 'Employee', 'User', 'Four', 'user4@example.com', 20), -- Contraseña encriptada: Username_123456
-    ('user5', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Five', 'user5@example.com', 15), -- Contraseña encriptada: Password_123456
-    ('user6', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Six', 'user6@example.com', 10), -- Contraseña encriptada: Password_123456
-    ('user7', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Seven', 'user7@example.com', 5), -- Contraseña encriptada: Password_123456
-    ('user8', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Eight', 'user8@example.com', 0), -- Contraseña encriptada: Password_123456
-    ('user9', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Nine', 'user9@example.com', 0); -- Contraseña encriptada: Password_123456
+    ('admin_user', 'QWRtaW5fMTIzNDU2', 'Admin', 'Admin', 'User', 'admin@example.com', 40, 'BACKEND_SENIOR'),
+    ('employee_user1', 'RW1wbG95ZWVfMTIzNDU2', 'Employee', 'Employee', 'User1', 'employee1@example.com', 35, 'FRONTEND_MID'),
+    ('employee_user2', 'RW1wbG95ZWVfMTIzNDU2', 'Employee', 'Employee', 'User2', 'employee2@example.com', 30, 'DEVOPS_JUNIOR'),
+    ('user3', 'VXNlcm5hbWVfMTIzNDU2', 'Employee', 'User', 'Three', 'user3@example.com', 25, 'BACKEND_JUNIOR'),
+    ('user4', 'VXNlcm5hbWVfMTIzNDU2', 'Employee', 'User', 'Four', 'user4@example.com', 20, 'FRONTEND_SENIOR'),
+    ('user5', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Five', 'user5@example.com', 15, 'FULLSTACK_MID'),
+    ('user6', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Six', 'user6@example.com', 10, 'BACKEND_MID'),
+    ('user7', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Seven', 'user7@example.com', 5, 'DEVOPS_SENIOR'),
+    ('user8', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Eight', 'user8@example.com', 0, 'FRONTEND_JUNIOR'),
+    ('user9', 'UGFzc3dvcmRfMTIzNDU2', 'Employee', 'User', 'Nine', 'user9@example.com', 0, 'FULLSTACK_SENIOR');
+
 
 
 -- Insertar datos en Tasks
