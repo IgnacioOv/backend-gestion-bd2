@@ -56,7 +56,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{projectId}")
+    @GetMapping("/project/{projectId}")
     public ResponseEntity<Object> getUsersByProjectId(@PathVariable int projectId) {
         try {
             List<Users> users = userService.findUsersByProjectId(projectId);
@@ -67,7 +67,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{taskId}")
+    @GetMapping("/task/{taskId}")
     public ResponseEntity<Object> getUsersByTaskId(@PathVariable int taskId) {
         try {
             List<Users> users = userService.findUsersByTaskId(taskId);
