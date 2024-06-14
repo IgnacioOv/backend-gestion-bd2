@@ -1,43 +1,36 @@
 package com.uade.backendgestionbd2.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-//Lombok
+import lombok.*;
+
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @ToString
-
-
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Projects {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int projedct_id;
+    @Column(name = "project_id")
+    private int projectId;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
     private String description;
 
-    private String start_date;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    private String end_date;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
+    @Column(name = "status")
     private String status;
-
-    public Projects() {
-    }
-
-    public Projects( String name, String description, String start_date, String end_date, String status) {
-        this.name = name;
-        this.description = description;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.status = status;
-    }
-
-
-
 
 }

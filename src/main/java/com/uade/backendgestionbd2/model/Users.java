@@ -51,10 +51,6 @@ public class Users {
 
     private int weekly_hours;
 
-    @ManyToMany(mappedBy = "usuarios")
-    private Set<Projects> projects = new HashSet<>();
-
-
     public Users() {
     }
 
