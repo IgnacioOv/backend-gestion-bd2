@@ -1,11 +1,9 @@
 package com.uade.backendgestionbd2.model;
 
-import com.uade.backendgestionbd2.util.Status;
+import com.uade.backendgestionbd2.util.SkillLevel;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,20 +28,22 @@ public class Tasks {
 
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private int status;
 
     private Date start_date;
 
     private Date end_date;
 
+    private SkillLevel skillLevel;
+
     public Tasks() {
     }
 
-    public Tasks(Projects project, String name, String description, Status status, Date start_date, Date end_date) {
+    public Tasks(Projects project, String name, String description,SkillLevel skillLevel, int status, Date start_date, Date end_date) {
         this.project = project;
         this.name = name;
         this.description = description;
+        this.skillLevel = skillLevel;
         this.status = status;
         this.start_date = start_date;
         this.end_date = end_date;

@@ -33,11 +33,16 @@ CREATE TABLE Tasks (
                        project_id INTEGER NOT NULL,
                        name VARCHAR(100) NOT NULL,
                        description TEXT,
-                       status VARCHAR(50),
+                       skill_level VARCHAR(50) CHECK (
+                           skill_level IN ('BACKEND_JUNIOR', 'BACKEND_MID', 'BACKEND_SENIOR',
+                                           'FRONTEND_JUNIOR', 'FRONTEND_MID', 'FRONTEND_SENIOR',
+                                           'FULLSTACK_JUNIOR', 'FULLSTACK_MID', 'FULLSTACK_SENIOR',
+                                           'DEVOPS_JUNIOR', 'DEVOPS_MID', 'DEVOPS_SENIOR')
+                           ),
+                       status INTEGER DEFAULT 0 CHECK (status >= 0 AND status <= 100),
                        start_date DATE,
                        end_date DATE,
-                       FOREIGN KEY (project_id) REFERENCES Projects(project_id),
-                       CHECK (status IN ('To_Do', 'In_Activities', 'Done', 'Cancelled', 'Waiting'))
+                       FOREIGN KEY (project_id) REFERENCES Projects(project_id)
 );
 
 -- Crear la tabla de asignaciones de tareas
