@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.model;
 
+import com.uade.backendgestionbd2.util.Status;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -29,7 +30,8 @@ public class Tasks {
 
     private String description;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToMany(mappedBy = "tasks")
     private Set<Users> users = new HashSet<>();
@@ -42,7 +44,7 @@ public class Tasks {
     public Tasks() {
     }
 
-    public Tasks(Projects project, String name, String description, String status, Date start_date, Date end_date) {
+    public Tasks(Projects project, String name, String description, Status status, Date start_date, Date end_date) {
         this.project = project;
         this.name = name;
         this.description = description;
