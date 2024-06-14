@@ -19,9 +19,15 @@ public class UserController {
     private UserService userService;
 
     // created user
-    @PostMapping("/create")
-    public void createUser(@RequestBody Users user) {
-        userService.createUser(user);
+    @PostMapping("/")
+    public ResponseEntity<Object> createUser(@RequestBody Users user) {
+        try {
+            userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        } catch (UserException e) {
+            // user exists
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     // delete user
@@ -32,7 +38,7 @@ public class UserController {
     }
 
     // get all users
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Users>> getAllUsers() {
         List<Users> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
