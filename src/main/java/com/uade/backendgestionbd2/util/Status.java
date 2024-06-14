@@ -1,11 +1,11 @@
 package com.uade.backendgestionbd2.util;
 
 public enum Status {
-    TO_DO("To Do"),
-    IN_ACTIVITIES("In Activities"),
-    DONE("Done"),
-    CANCELLED("Cancelled"),
-    WAITING("Waiting");
+    To_Do("To Do"),
+    In_Activities("In Activities"),
+    Done("Done"),
+    Cancelled("Cancelled"),
+    Waiting("Waiting");
 
     private final String status;
 

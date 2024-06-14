@@ -37,7 +37,7 @@ CREATE TABLE Tasks (
                        start_date DATE,
                        end_date DATE,
                        FOREIGN KEY (project_id) REFERENCES Projects(project_id),
-                       CHECK (status IN ('To Do', 'In Activities', 'Done', 'Cancelled', 'Waiting'))
+                       CHECK (status IN ('To_Do', 'In_Activities', 'Done', 'Cancelled', 'Waiting'))
 );
 
 -- Crear la tabla de asignaciones de tareas
@@ -95,43 +95,43 @@ VALUES
 -- Insertar datos en Tasks para Project Alpha
 INSERT INTO Tasks (project_id, name, description, status, start_date, end_date)
 VALUES
-    (1, 'Task 1 for Project Alpha', 'Description for Task 1', 'In Activities', '2024-01-01', '2024-06-30'),
-    (1, 'Task 2 for Project Alpha', 'Description for Task 2', 'To Do', '2024-02-01', '2024-07-31'),
+    (1, 'Task 1 for Project Alpha', 'Description for Task 1', 'In_Activities', '2024-01-01', '2024-06-30'),
+    (1, 'Task 2 for Project Alpha', 'Description for Task 2', 'To_Do', '2024-02-01', '2024-07-31'),
     (1, 'Task 3 for Project Alpha', 'Description for Task 3', 'Done', '2024-03-01', '2024-05-31');
 
 -- Insertar datos en Tasks para Project Beta
 INSERT INTO Tasks (project_id, name, description, status, start_date, end_date)
 VALUES
-    (2, 'Task 1 for Project Beta', 'Description for Task 1', 'In Activities', '2024-02-01', '2024-07-31'),
-    (2, 'Task 2 for Project Beta', 'Description for Task 2', 'To Do', '2024-03-01', '2024-08-31'),
+    (2, 'Task 1 for Project Beta', 'Description for Task 1', 'In_Activities', '2024-02-01', '2024-07-31'),
+    (2, 'Task 2 for Project Beta', 'Description for Task 2', 'To_Do', '2024-03-01', '2024-08-31'),
     (2, 'Task 3 for Project Beta', 'Description for Task 3', 'Done', '2024-04-01', '2024-09-30');
 
 -- Insertar datos en Tasks para Project Gamma
 INSERT INTO Tasks (project_id, name, description, status, start_date, end_date)
 VALUES
-    (3, 'Task 1 for Project Gamma', 'Description for Task 1', 'In Activities', '2024-03-01', '2024-10-31'),
-    (3, 'Task 2 for Project Gamma', 'Description for Task 2', 'To Do', '2024-04-01', '2024-11-30'),
+    (3, 'Task 1 for Project Gamma', 'Description for Task 1', 'In_Activities', '2024-03-01', '2024-10-31'),
+    (3, 'Task 2 for Project Gamma', 'Description for Task 2', 'To_Do', '2024-04-01', '2024-11-30'),
     (3, 'Task 3 for Project Gamma', 'Description for Task 3', 'Done', '2024-05-01', '2024-12-31');
 
 -- Insertar más datos en Tasks para Project Delta
 INSERT INTO Tasks (project_id, name, description, status, start_date, end_date)
 VALUES
-    (4, 'Task 1 for Project Delta', 'Description for Task 1', 'To Do', '2024-07-01', '2024-08-31'),
-    (4, 'Task 2 for Project Delta', 'Description for Task 2', 'In Activities', '2024-08-01', '2024-09-30'),
+    (4, 'Task 1 for Project Delta', 'Description for Task 1', 'To_Do', '2024-07-01', '2024-08-31'),
+    (4, 'Task 2 for Project Delta', 'Description for Task 2', 'In_Activities', '2024-08-01', '2024-09-30'),
     (4, 'Task 3 for Project Delta', 'Description for Task 3', 'Done', '2024-09-01', '2024-10-31');
 
 -- Insertar más datos en Tasks para Project Epsilon
 INSERT INTO Tasks (project_id, name, description, status, start_date, end_date)
 VALUES
-    (5, 'Task 1 for Project Epsilon', 'Description for Task 1', 'To Do', '2024-08-01', '2024-09-30'),
-    (5, 'Task 2 for Project Epsilon', 'Description for Task 2', 'In Activities', '2024-09-01', '2024-10-31'),
+    (5, 'Task 1 for Project Epsilon', 'Description for Task 1', 'To_Do', '2024-08-01', '2024-09-30'),
+    (5, 'Task 2 for Project Epsilon', 'Description for Task 2', 'In_Activities', '2024-09-01', '2024-10-31'),
     (5, 'Task 3 for Project Epsilon', 'Description for Task 3', 'Done', '2024-10-01', '2024-11-30');
 
 -- Insertar más datos en Tasks para Project Zeta
 INSERT INTO Tasks (project_id, name, description, status, start_date, end_date)
 VALUES
-    (6, 'Task 1 for Project Zeta', 'Description for Task 1', 'To Do', '2024-09-01', '2024-10-31'),
-    (6, 'Task 2 for Project Zeta', 'Description for Task 2', 'In Activities', '2024-10-01', '2024-11-30'),
+    (6, 'Task 1 for Project Zeta', 'Description for Task 1', 'To_Do', '2024-09-01', '2024-10-31'),
+    (6, 'Task 2 for Project Zeta', 'Description for Task 2', 'In_Activities', '2024-10-01', '2024-11-30'),
     (6, 'Task 3 for Project Zeta', 'Description for Task 3', 'Done', '2024-11-01', '2024-12-31');
 
 -- Insertar datos en TaskAssignments

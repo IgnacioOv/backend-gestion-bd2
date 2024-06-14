@@ -1,8 +1,8 @@
 package com.uade.backendgestionbd2.util;
 
 public enum Roles {
-    ADMIN(1, "ADMIN"),
-    EMPLOYEE(2, "USER");
+    Admin(1, "Admin"),
+    Employee(2, "Employee");
 
     private final int id;
     private final String name;
