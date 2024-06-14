@@ -33,10 +33,6 @@ public class Tasks {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToMany(mappedBy = "tasks")
-    private Set<Users> users = new HashSet<>();
-
-
     private Date start_date;
 
     private Date end_date;
