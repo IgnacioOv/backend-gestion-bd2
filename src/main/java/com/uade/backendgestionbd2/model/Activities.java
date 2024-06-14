@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.HashSet;
 import java.util.Set;
 
-@Document(collection = "progress")
-public class Progress {
+@Document(collection = "activities")
+public class Activities {
 
     @Id
     private String progress_id;
@@ -16,12 +16,12 @@ public class Progress {
     private String task_id;
 
     @DBRef
-    private Set<Update> updates = new HashSet<>();
+    private Set<String> updates_ids = new HashSet<>();
 
-    public Progress() {
+    public Activities() {
     }
 
-    public Progress(String task_id) {
+    public Activities(String task_id) {
         this.task_id = task_id;
     }
 

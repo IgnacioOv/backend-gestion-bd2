@@ -19,7 +19,7 @@ public class Update {
     private String update_id;
 
     @DBRef
-    private Progress progress;
+    private Activities activities;
 
     private String user_id;
     private String description;
@@ -30,8 +30,8 @@ public class Update {
     public Update() {
     }
 
-    public Update(Progress progress, String user_id, String description, Date timestamp, int progress_percentage, int time_worked) {
-        this.progress = progress;
+    public Update(Activities activities, String user_id, String description, Date timestamp, int progress_percentage, int time_worked) {
+        this.activities = activities;
         this.user_id = user_id;
         this.description = description;
         this.timestamp = timestamp;
