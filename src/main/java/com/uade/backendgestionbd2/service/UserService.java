@@ -17,6 +17,10 @@ public class UserService {
 
     // Crear un usuario
     public Users createUser(Users user) {
+        userRepository.findByEmail(user.getEmail())
+                .ifPresent(u -> {
+                    throw new UserException("User already exists");
+                });
         return userRepository.save(user);
     }
 
