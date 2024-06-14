@@ -26,8 +26,10 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
 
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -41,14 +43,17 @@ public class Users {
     )
     private Set<Tasks> tasks = new HashSet<>();
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "last_name")
     private String last_name;
 
     @Column(name = "email")
     @Check(constraints = "email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'")
     private String email;
 
+    @Column(name = "weekly_hours")
     private int weekly_hours;
 
     public Users() {
