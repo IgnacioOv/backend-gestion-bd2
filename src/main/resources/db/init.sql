@@ -31,7 +31,7 @@ CREATE TABLE Tasks (
                        start_date DATE,
                        end_date DATE,
                        FOREIGN KEY (project_id) REFERENCES Projects(project_id),
-                       CHECK (status IN ('To Do', 'In Progress', 'Done', 'Cancelled', 'Waiting'))
+                       CHECK (status IN ('To Do', 'In Activities', 'Done', 'Cancelled', 'Waiting'))
 );
 
 -- Crear la tabla de asignaciones de tareas
@@ -67,7 +67,7 @@ INSERT INTO Users (username, password, role, name, email, weekly_hours) VALUES
 
 -- Insertar datos en Tasks
 INSERT INTO Tasks (project_id, name, description, status, start_date, end_date) VALUES
-                                                                                    (1, 'Task 1', 'Description for Task 1', 'In Progress', '2024-01-01', '2024-06-30'),
+                                                                                    (1, 'Task 1', 'Description for Task 1', 'In Activities', '2024-01-01', '2024-06-30'),
                                                                                     (1, 'Task 2', 'Description for Task 2', 'To Do', '2024-02-01', '2024-07-31'),
                                                                                     (2, 'Task 3', 'Description for Task 3', 'Done', '2024-03-01', '2024-05-31');
 
