@@ -1,6 +1,7 @@
 package com.uade.backendgestionbd2.model;
 
 import com.uade.backendgestionbd2.util.Roles;
+import com.uade.backendgestionbd2.util.SkillLevel;
 import jakarta.persistence.*;
 
 
@@ -32,16 +33,9 @@ public class Users {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Roles role; // es un enum Roles
-
-    @ManyToMany
-    @JoinTable(
-            name = "taskAssignments",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id")
-    )
-    private Set<Tasks> tasks = new HashSet<>();
 
     @Column(name = "name")
     private String name;
@@ -56,6 +50,11 @@ public class Users {
     @Column(name = "weekly_hours")
     private int weekly_hours;
 
+    @Column(name = "skill_Level")
+    @Enumerated(EnumType.STRING)
+    private SkillLevel skillLevel;
+
+
     public Users() {
     }
 
@@ -68,14 +67,23 @@ public class Users {
         this.email = email;
     }
 
-    public Users(String username, String password, Roles role, String nombre, String email) {
+    public Users(String username, String password, Roles role, String email) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+    }
+
+    public Users(String username, String password, Roles role, String nombre,String last_name, String email, int weekly_hours, SkillLevel skillLevel) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.name = nombre;
+        this.last_name = last_name;
         this.email = email;
+        this.weekly_hours = weekly_hours;
+        this.skillLevel = skillLevel;
     }
-
 
 
 }
