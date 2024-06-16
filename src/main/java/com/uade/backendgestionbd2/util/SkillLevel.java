@@ -14,5 +14,4 @@ public enum SkillLevel {
     DEVOPS_JUNIOR,
     DEVOPS_MID,
     DEVOPS_SENIOR,
-
 }
