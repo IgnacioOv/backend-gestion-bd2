@@ -15,13 +15,14 @@ CREATE TABLE Users (
                                            'DEVOPS_JUNIOR', 'DEVOPS_MID', 'DEVOPS_SENIOR')
                            ),
                        CONSTRAINT email_format CHECK (email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-);
+    );
 
 -- Crear la tabla de proyectos
 CREATE TABLE Projects (
                           project_id SERIAL PRIMARY KEY,
                           name VARCHAR(100) NOT NULL,
                           description TEXT,
+                          status INTEGER DEFAULT 0 CHECK (status >= 0 AND status <= 100),
                           start_date DATE,
                           end_date DATE,
                           weekly_hours INT DEFAULT 0
@@ -62,6 +63,7 @@ CREATE TABLE ProjectAssignments (
                                     FOREIGN KEY (project_id) REFERENCES Projects(project_id),
                                     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
+
 
 -- Insertar datos de prueba
 

@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProjectRepository extends JpaRepository<Projects, Long> {
+public interface ProjectRepository extends JpaRepository<Projects, Integer> {
 
 
     @Query(value = "SELECT p.* FROM Projects p " +
             "INNER JOIN ProjectAssignments pa ON p.project_id = pa.project_id " +
             "WHERE pa.user_id = :userId", nativeQuery = true)
-    List<Projects> findProjectsByUserId(Long userId);
+    List<Projects> findProjectsByUserId(int userId);
 }
 
