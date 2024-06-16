@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.dto;
 
+import com.uade.backendgestionbd2.util.SkillLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +14,23 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TaskRequest {
 
+    private int id;
     private String name;
     private String description;
     private int project;
+    private SkillLevel skillLevel;
     private LocalDate startDate;
     private LocalDate endDate;
     private int status;
+
+    public TaskRequest(String name, String description, int project, SkillLevel skillLevel, LocalDate startDate, LocalDate endDate, int status) {
+        this.name = name;
+        this.description = description;
+        this.project = project;
+        this.skillLevel = skillLevel;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+    }
 
 }
