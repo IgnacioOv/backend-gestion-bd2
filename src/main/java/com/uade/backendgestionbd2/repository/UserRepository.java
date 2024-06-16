@@ -28,4 +28,5 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
             "WHERE t.task_id = :taskId;\n", nativeQuery = true)
     Optional<List<Users>> findUsersByTaskId(int taskId);
 
+    Optional<Users> findByUsername(String username);
 }
