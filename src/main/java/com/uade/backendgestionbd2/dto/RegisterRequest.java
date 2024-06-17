@@ -1,4 +1,4 @@
-package com.uade.backendgestionbd2.auth;
+package com.uade.backendgestionbd2.dto;
 
 
 import com.uade.backendgestionbd2.util.Roles;

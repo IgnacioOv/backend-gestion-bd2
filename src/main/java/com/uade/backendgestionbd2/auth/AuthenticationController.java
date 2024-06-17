@@ -1,6 +1,9 @@
 package com.uade.backendgestionbd2.auth;
 
 
+import com.uade.backendgestionbd2.dto.AuthenticationRequest;
+import com.uade.backendgestionbd2.dto.AuthenticationResponse;
+import com.uade.backendgestionbd2.dto.RegisterRequest;
 import com.uade.backendgestionbd2.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

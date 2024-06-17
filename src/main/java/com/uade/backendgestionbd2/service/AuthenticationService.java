@@ -1,9 +1,9 @@
 package com.uade.backendgestionbd2.service;
 
 
-import com.uade.backendgestionbd2.auth.AuthenticationRequest;
-import com.uade.backendgestionbd2.auth.AuthenticationResponse;
-import com.uade.backendgestionbd2.auth.RegisterRequest;
+import com.uade.backendgestionbd2.dto.AuthenticationRequest;
+import com.uade.backendgestionbd2.dto.AuthenticationResponse;
+import com.uade.backendgestionbd2.dto.RegisterRequest;
 import com.uade.backendgestionbd2.config.JwtService;
 import com.uade.backendgestionbd2.model.Users;
 import com.uade.backendgestionbd2.repository.UserRepository;
