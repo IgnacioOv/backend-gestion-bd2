@@ -1,9 +1,9 @@
 package com.uade.backendgestionbd2.model;
 
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.Date;
+
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,13 +22,13 @@ public class Comments {
 
     private String comment;
 
-    private Date timestamp;
+    private LocalDate timestamp;
 
     // Constructores y getters/setters
     public Comments() {
     }
 
-    public Comments(String task_id, String user_id, String comment, Date timestamp) {
+    public Comments(String task_id, String user_id, String comment, LocalDate timestamp) {
         this.task_id = task_id;
         this.user_id = user_id;
         this.comment = comment;
