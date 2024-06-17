@@ -22,15 +22,10 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         Users user = Users.builder().name(request.getFirstname()).last_name(request.getLastname()).email(request.getEmail()).userPassword(this.passwordEncoder.encode(request.getUserPassword())).role(request.getRole()).username(request.getUsername()).build();
-
-
         repository.save(user);
-        var jwtToken = jwtService.generateToken((UserDetails) user);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .build();
+        var jwtToken = jwtService.generateToken((UserDetails) user);;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
