@@ -15,14 +15,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Crear un usuario
-    public Users createUser(Users user) {
-        userRepository.findByEmail(user.getEmail())
-                .ifPresent(u -> {
-                    throw new UserException("User already exists");
-                });
-        return userRepository.save(user);
-    }
+//    // Crear un usuario
+//    public Users createUser(Users user) {
+//        userRepository.findByEmail(user.getEmail())
+//                .ifPresent(u -> {
+//                    throw new UserException("User already exists");
+//                });
+//        return userRepository.save(user);
+//    }
 
     //Eliminar un usuario
     public void deleteUser(int userId) {
