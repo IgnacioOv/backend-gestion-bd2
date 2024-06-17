@@ -6,23 +6,24 @@ import jakarta.persistence.*;
 
 
 //Lombok
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Check;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.List;
 
 
 @Getter
 @Setter
 @ToString
-
-
+@Builder
+@AllArgsConstructor
 @Table(name = "Users")
 @Entity
-public class Users {
+public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
@@ -31,7 +32,7 @@ public class Users {
     private String username;
 
     @Column(name = "password")
-    private String password;
+    private String userPassword;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -58,25 +59,25 @@ public class Users {
     public Users() {
     }
 
-    public Users(int user_id, String username, String password, Roles role, String nombre, String email) {
+    public Users(int user_id, String username, String userPassword, Roles role, String nombre, String email) {
         this.user_id = user_id;
         this.username = username;
-        this.password = password;
+        this.userPassword = userPassword;
         this.role = role;
         this.name = nombre;
         this.email = email;
     }
 
-    public Users(String username, String password, Roles role, String email) {
+    public Users(String username, String userPassword, Roles role, String email) {
         this.username = username;
-        this.password = password;
+        this.userPassword = userPassword;
         this.role = role;
         this.email = email;
     }
 
-    public Users(String username, String password, Roles role, String nombre,String last_name, String email, int weekly_hours, SkillLevel skillLevel) {
+    public Users(String username, String userPassword, Roles role, String nombre, String last_name, String email, int weekly_hours, SkillLevel skillLevel) {
         this.username = username;
-        this.password = password;
+        this.userPassword = userPassword;
         this.role = role;
         this.name = nombre;
         this.last_name = last_name;
@@ -85,8 +86,43 @@ public class Users {
         this.skillLevel = skillLevel;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
 
+
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+
+    public String getPassword() {
+        return getUserPassword();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
+
+
 
 
 

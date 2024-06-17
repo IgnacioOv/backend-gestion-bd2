@@ -26,4 +26,11 @@ public class ProjectService {
                 .orElseThrow(() -> new ProjectException("Project not found"));
     }
 
+    public Projects addProject(Projects project) {
+        return projectRepository.save(project);
+    }
+
+    public void deleteProject(int projectId) {
+        projectRepository.deleteById(projectId);
+    }
 }
