@@ -18,17 +18,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // created user
-    @PostMapping("/")
-    public ResponseEntity<Object> createUser(@RequestBody Users user) {
-        try {
-            userService.createUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(user);
-        } catch (UserException e) {
-            // user exists
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
-    }
 
     // delete user
     @DeleteMapping("/{id}")
