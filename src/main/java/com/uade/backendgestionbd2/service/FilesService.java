@@ -110,7 +110,7 @@ public class FilesService {
             // Crear celdas para cada comentario
             for (Comments comment : comments) {
                 Row commentRow = sheet.createRow(rowNum++);
-                commentRow.createCell(0).setCellValue(comment.getComment());
+                commentRow.createCell(0).setCellValue("Comentarios: " + comment.getComment() + " " + comment.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
 
             // Ajustar automáticamente el ancho de las columnas
