@@ -25,6 +25,10 @@ public class Tasks {
     @JoinColumn(name = "project_id")
     private Projects project;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
+
     private String name;
 
     private String description;

@@ -59,8 +59,8 @@ public class UserController {
     @GetMapping("/task/{taskId}")
     public ResponseEntity<Object> getUsersByTaskId(@PathVariable int taskId) {
         try {
-            List<Users> users = userService.findUsersByTaskId(taskId);
-            return ResponseEntity.ok(users);
+            Users user = userService.findUsersByTaskId(taskId);
+            return ResponseEntity.ok(user);
         } catch (UserException e) {
             String errorMessage =e.getMessage();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);

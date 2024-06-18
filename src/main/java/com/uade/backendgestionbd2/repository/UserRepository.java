@@ -23,10 +23,9 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
     @Query(value = "SELECT u.*" +
             "FROM Users u\n" +
-            "JOIN taskassignments ta ON u.user_id = ta.user_id\n" +
-            "JOIN Tasks t ON ta.task_id = t.task_id\n" +
+            "JOIN Tasks t ON u.user_id = t.user_id\n" +
             "WHERE t.task_id = :taskId;\n", nativeQuery = true)
-    Optional<List<Users>> findUsersByTaskId(int taskId);
+    Optional<Users> findUserByTaskId(int taskId);
 
     Optional<Users> findByUsername(String username);
 }

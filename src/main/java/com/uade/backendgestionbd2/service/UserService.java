@@ -51,8 +51,8 @@ public class UserService {
 
 
     // get users by task id
-    public List<Users> findUsersByTaskId(int taskId) {
-        return userRepository.findUsersByTaskId(taskId)
+    public Users findUsersByTaskId(int taskId) {
+        return userRepository.findUserByTaskId(taskId)
                 .orElseThrow(() -> new UserException("Users not found for taskId: " + taskId));
     }
 
