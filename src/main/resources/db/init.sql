@@ -32,6 +32,7 @@ CREATE TABLE Projects (
 CREATE TABLE Tasks (
                        task_id SERIAL PRIMARY KEY,
                        project_id INTEGER NOT NULL,
+                       user_id INTEGER NOT NULL,
                        name VARCHAR(100) NOT NULL,
                        description TEXT,
                        skill_level VARCHAR(50) CHECK (
@@ -43,17 +44,10 @@ CREATE TABLE Tasks (
                        status INTEGER DEFAULT 0 CHECK (status >= 0 AND status <= 100),
                        start_date DATE,
                        end_date DATE,
+                       FOREIGN KEY (user_id) REFERENCES Users(user_id),
                        FOREIGN KEY (project_id) REFERENCES Projects(project_id)
 );
 
--- Crear la tabla de asignaciones de tareas
-CREATE TABLE TaskAssignments (
-                                 task_id INTEGER,
-                                 user_id INTEGER,
-                                 PRIMARY KEY (task_id, user_id),
-                                 FOREIGN KEY (task_id) REFERENCES Tasks(task_id),
-                                 FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
 
 -- Crear la tabla de asignaciones de proyectos
 CREATE TABLE ProjectAssignments (
@@ -142,15 +136,7 @@ VALUES
     (6, 'Task 2 for Project Zeta', 'Description for Task 2', 'DEVOPS_JUNIOR', 95, '2024-10-01', '2024-11-30'),
     (6, 'Task 3 for Project Zeta', 'Description for Task 3', 'FULLSTACK_SENIOR', 30, '2024-11-01', '2024-12-31');
 
--- Insertar datos en TaskAssignments
-INSERT INTO TaskAssignments (task_id, user_id)
-VALUES
-    (1, 2), -- Asignar Task 1 del proyecto Alpha al usuario employee_user1
-    (2, 3), -- Asignar Task 2 del proyecto Alpha al usuario employee_user2
-    (3, 3), -- Asignar Task 3 del proyecto Beta al usuario employee_user2
-    (4, 1), -- Asignar Task 1 del proyecto Delta al usuario admin_user
-    (5, 2), -- Asignar Task 1 del proyecto Epsilon al usuario employee_user1
-    (6, 3); -- Asignar Task 1 del proyecto Zeta al usuario employee_user2
+
 
 -- Insertar datos en ProjectAssignments
 INSERT INTO ProjectAssignments (project_id, user_id)
