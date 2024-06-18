@@ -1,6 +1,8 @@
 package com.uade.backendgestionbd2.controller;
 
 
+import com.uade.backendgestionbd2.dto.ProjectRequest;
+import com.uade.backendgestionbd2.exception.ProjectException;
 import com.uade.backendgestionbd2.model.Projects;
 import com.uade.backendgestionbd2.service.ProjectService;
 import lombok.AllArgsConstructor;
@@ -15,22 +17,35 @@ import java.util.List;
 @AllArgsConstructor
 public class ProjectController {
 
-
     @Autowired
     private final ProjectService projectService;
 
+    @GetMapping("/all")
+    public List<Projects> getAllProjects() {
+        return projectService.getAllProjects();
+    }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public List<Projects> getProjectsByUserId(@PathVariable int userId) {
         return projectService.getProjectsByUserId(userId);
     }
 
+    @GetMapping("/{projectId}")
+    public Projects getProjectById(@PathVariable int projectId) {
+        return projectService.getProjectById(projectId);
+    }
+
     @PostMapping("/add")
-    public Projects addProject(@RequestBody Projects project) {
+    public Projects addProject(@RequestBody ProjectRequest project) {
         return projectService.addProject(project);
     }
-    @PostMapping("/delete/{projectId}")
+    @DeleteMapping("/delete/{projectId}")
     public void deleteProject(@PathVariable int projectId) {
         projectService.deleteProject(projectId);
+    }
+
+    @PutMapping("/update/{projectId}")
+    public Projects updateProject(@PathVariable int projectId, @RequestBody ProjectRequest project) {
+        return projectService.updateProject(projectId, project);
     }
 }

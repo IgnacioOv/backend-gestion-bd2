@@ -2,6 +2,7 @@ package com.uade.backendgestionbd2.dto;
 
 
 import com.uade.backendgestionbd2.util.Roles;
+import com.uade.backendgestionbd2.util.SkillLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +20,6 @@ public class RegisterRequest {
     private String email;
     private String userPassword;
     private Roles role;
+    private int weekly_hours;
+    private SkillLevel skillLevel;
 }

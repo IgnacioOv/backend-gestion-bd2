@@ -31,6 +31,8 @@ public class Projects {
     private LocalDate endDate;
 
     @Column(name = "status")
-    private String status;
+    private int status;
 
+    @Column(name = "weekly_hours")
+    private int weeklyHours;
 }
