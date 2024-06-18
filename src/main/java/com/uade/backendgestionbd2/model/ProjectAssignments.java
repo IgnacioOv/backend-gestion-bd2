@@ -13,16 +13,13 @@ import lombok.Setter;
 @Table(name = "ProjectAssignments")
 public class ProjectAssignments {
     @Id
-    private String project_id;
-    @Id
-    private String user_id;
+    private ProjectAssignmentsId id;
 
     public ProjectAssignments() {
     }
 
-    public ProjectAssignments(String project_id, String user_id) {
-        this.project_id = project_id;
-        this.user_id = user_id;
+    public ProjectAssignments(int projectId, int userId) {
+        this.id = new ProjectAssignmentsId(projectId, userId);
     }
 
 }
