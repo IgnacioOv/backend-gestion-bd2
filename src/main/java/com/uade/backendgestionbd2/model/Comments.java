@@ -14,7 +14,7 @@ import lombok.Setter;
 @Document(collection = "comments")
 public class Comments {
     @Id
-    private String comment_id; // Utiliza String para almacenar el ObjectId de MongoDB
+    private String id;
 
     private String task_id;
 
