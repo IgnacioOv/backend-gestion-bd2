@@ -3,9 +3,11 @@ package com.uade.backendgestionbd2.controller;
 import com.uade.backendgestionbd2.dto.TaskRequest;
 import com.uade.backendgestionbd2.exception.ProjectException;
 import com.uade.backendgestionbd2.exception.TaskException;
+import com.uade.backendgestionbd2.exception.UserException;
 import com.uade.backendgestionbd2.model.Tasks;
 import com.uade.backendgestionbd2.service.ProjectService;
 import com.uade.backendgestionbd2.service.TaskService;
+import com.uade.backendgestionbd2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class TaskController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private UserService userService;
+
 
     // add task
     @PostMapping("/")
@@ -34,11 +39,14 @@ public class TaskController {
             task.setEnd_date(taskRequest.getEndDate());
             task.setStart_date(taskRequest.getStartDate());
             task.setStatus(taskRequest.getStatus());
+            task.setUser(userService.getUserById(taskRequest.getUser()));
 
             // si todo esta bien, crear la tarea
             taskService.createTask(task);
             return ResponseEntity.status(HttpStatus.CREATED).body(task);
         } catch (ProjectException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (UserException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (TaskException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -53,6 +61,7 @@ public class TaskController {
             Tasks task = new Tasks();
             task.setTask_id(taskRequest.getId());
             task.setName(taskRequest.getName());
+            task.setUser(userService.getUserById(taskRequest.getUser()));
             task.setDescription(taskRequest.getDescription());
             task.setProject(projectService.getProjectById(taskRequest.getProject()));
             task.setSkillLevel(taskRequest.getSkillLevel());
