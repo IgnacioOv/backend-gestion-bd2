@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class TaskRequest {
 
     private int id;
@@ -22,8 +23,10 @@ public class TaskRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private int status;
+    private int user;
 
-    public TaskRequest(String name, String description, int project, SkillLevel skillLevel, LocalDate startDate, LocalDate endDate, int status) {
+
+    public TaskRequest(String name, String description, int project, SkillLevel skillLevel, LocalDate startDate, LocalDate endDate, int status, int user) {
         this.name = name;
         this.description = description;
         this.project = project;
@@ -31,6 +34,7 @@ public class TaskRequest {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.user = user;
     }
 
 }
