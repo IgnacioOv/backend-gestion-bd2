@@ -94,47 +94,47 @@ VALUES
 
 -- Insertar datos en Tasks
 -- Insertar datos en Tasks para Project Alpha
-INSERT INTO Tasks (project_id, name, description, status, start_date, end_date, skill_level)
+INSERT INTO Tasks (project_id, user_id, name, description, status, start_date, end_date, skill_level)
 VALUES
-    (1, 'Task 1 for Project Alpha', 'Description for Task 1', 50, '2024-01-01', '2024-06-30', 'BACKEND_JUNIOR'),
-    (1, 'Task 2 for Project Alpha', 'Description for Task 2', 0, '2024-02-01', '2024-07-31', 'FRONTEND_MID'),
-    (1, 'Task 3 for Project Alpha', 'Description for Task 3', 100, '2024-03-01', '2024-05-31', 'FULLSTACK_SENIOR');
+    (1, 1, 'Task 1 for Project Alpha', 'Description for Task 1', 50, '2024-01-01', '2024-06-30', 'BACKEND_JUNIOR'),
+    (1, 2, 'Task 2 for Project Alpha', 'Description for Task 2', 0, '2024-02-01', '2024-07-31', 'FRONTEND_MID'),
+    (1, 3, 'Task 3 for Project Alpha', 'Description for Task 3', 100, '2024-03-01', '2024-05-31', 'FULLSTACK_SENIOR');
 
 -- Insertar datos en Tasks para Project Beta
-INSERT INTO Tasks (project_id, name, description, status, start_date, end_date, skill_level)
+INSERT INTO Tasks (project_id, user_id, name, description, status, start_date, end_date, skill_level)
 VALUES
-    (2, 'Task 1 for Project Beta', 'Description for Task 1', 60, '2024-02-01', '2024-07-31', 'DEVOPS_JUNIOR'),
-    (2, 'Task 2 for Project Beta', 'Description for Task 2', 10, '2024-03-01', '2024-08-31', 'BACKEND_SENIOR'),
-    (2, 'Task 3 for Project Beta', 'Description for Task 3', 90, '2024-04-01', '2024-09-30', 'FULLSTACK_MID');
+    (2, 4, 'Task 1 for Project Beta', 'Description for Task 1', 60, '2024-02-01', '2024-07-31', 'DEVOPS_JUNIOR'),
+    (2, 5, 'Task 2 for Project Beta', 'Description for Task 2', 10, '2024-03-01', '2024-08-31', 'BACKEND_SENIOR'),
+    (2, 6, 'Task 3 for Project Beta', 'Description for Task 3', 90, '2024-04-01', '2024-09-30', 'FULLSTACK_MID');
 
 -- Insertar datos en Tasks para Project Gamma
-INSERT INTO Tasks (project_id, name, description, status, start_date, end_date, skill_level)
+INSERT INTO Tasks (project_id, user_id, name, description, status, start_date, end_date, skill_level)
 VALUES
-    (3, 'Task 1 for Project Gamma', 'Description for Task 1', 70, '2024-03-01', '2024-10-31', 'FRONTEND_JUNIOR'),
-    (3, 'Task 2 for Project Gamma', 'Description for Task 2', 20, '2024-04-01', '2024-11-30', 'DEVOPS_SENIOR'),
-    (3, 'Task 3 for Project Gamma', 'Description for Task 3', 80, '2024-05-01', '2024-12-31', 'FULLSTACK_JUNIOR');
+    (3, 7, 'Task 1 for Project Gamma', 'Description for Task 1', 70, '2024-03-01', '2024-10-31', 'FRONTEND_JUNIOR'),
+    (3, 8, 'Task 2 for Project Gamma', 'Description for Task 2', 20, '2024-04-01', '2024-11-30', 'DEVOPS_SENIOR'),
+    (3, 9, 'Task 3 for Project Gamma', 'Description for Task 3', 80, '2024-05-01', '2024-12-31', 'FULLSTACK_JUNIOR');
 
 
 -- Insertar más datos en Tasks para Project Delta con skill_level y status
-INSERT INTO Tasks (project_id, name, description, skill_level, status, start_date, end_date)
+INSERT INTO Tasks (project_id, user_id, name, description, skill_level, status, start_date, end_date)
 VALUES
-    (4, 'Task 1 for Project Delta', 'Description for Task 1', 'BACKEND_JUNIOR', 50, '2024-07-01', '2024-08-31'),
-    (4, 'Task 2 for Project Delta', 'Description for Task 2', 'FRONTEND_SENIOR', 75, '2024-08-01', '2024-09-30'),
-    (4, 'Task 3 for Project Delta', 'Description for Task 3', 'FULLSTACK_MID', 25, '2024-09-01', '2024-10-31');
+    (4, 1, 'Task 1 for Project Delta', 'Description for Task 1', 'BACKEND_JUNIOR', 50, '2024-07-01', '2024-08-31'),
+    (4, 2, 'Task 2 for Project Delta', 'Description for Task 2', 'FRONTEND_SENIOR', 75, '2024-08-01', '2024-09-30'),
+    (4, 3, 'Task 3 for Project Delta', 'Description for Task 3', 'FULLSTACK_MID', 25, '2024-09-01', '2024-10-31');
 
 -- Insertar más datos en Tasks para Project Epsilon con skill_level y status
-INSERT INTO Tasks (project_id, name, description, skill_level, status, start_date, end_date)
+INSERT INTO Tasks (project_id, user_id, name, description, skill_level, status, start_date, end_date)
 VALUES
-    (5, 'Task 1 for Project Epsilon', 'Description for Task 1', 'DEVOPS_SENIOR', 40, '2024-08-01', '2024-09-30'),
-    (5, 'Task 2 for Project Epsilon', 'Description for Task 2', 'FULLSTACK_JUNIOR', 85, '2024-09-01', '2024-10-31'),
-    (5, 'Task 3 for Project Epsilon', 'Description for Task 3', 'BACKEND_SENIOR', 60, '2024-10-01', '2024-11-30');
+    (5, 4, 'Task 1 for Project Epsilon', 'Description for Task 1', 'DEVOPS_SENIOR', 40, '2024-08-01', '2024-09-30'),
+    (5, 5, 'Task 2 for Project Epsilon', 'Description for Task 2', 'FULLSTACK_JUNIOR', 85, '2024-09-01', '2024-10-31'),
+    (5, 6, 'Task 3 for Project Epsilon', 'Description for Task 3', 'BACKEND_SENIOR', 60, '2024-10-01', '2024-11-30');
 
 -- Insertar más datos en Tasks para Project Zeta con skill_level y status
-INSERT INTO Tasks (project_id, name, description, skill_level, status, start_date, end_date)
+INSERT INTO Tasks (project_id, user_id, name, description, skill_level, status, start_date, end_date)
 VALUES
-    (6, 'Task 1 for Project Zeta', 'Description for Task 1', 'FRONTEND_MID', 10, '2024-09-01', '2024-10-31'),
-    (6, 'Task 2 for Project Zeta', 'Description for Task 2', 'DEVOPS_JUNIOR', 95, '2024-10-01', '2024-11-30'),
-    (6, 'Task 3 for Project Zeta', 'Description for Task 3', 'FULLSTACK_SENIOR', 30, '2024-11-01', '2024-12-31');
+    (6, 7, 'Task 1 for Project Zeta', 'Description for Task 1', 'FRONTEND_MID', 10, '2024-09-01', '2024-10-31'),
+    (6, 8, 'Task 2 for Project Zeta', 'Description for Task 2', 'DEVOPS_JUNIOR', 95, '2024-10-01', '2024-11-30'),
+    (6, 9, 'Task 3 for Project Zeta', 'Description for Task 3', 'FULLSTACK_SENIOR', 30, '2024-11-01', '2024-12-31');
 
 
 
