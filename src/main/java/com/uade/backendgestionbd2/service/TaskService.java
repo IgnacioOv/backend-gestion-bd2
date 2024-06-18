@@ -6,7 +6,9 @@ import com.uade.backendgestionbd2.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -60,5 +62,12 @@ public class TaskService {
         return taskRepository.findAllByProject(projectId)
                 .orElseThrow(() -> new TaskException("Tasks not exist"));
     }
+
+    public List<String> getTaskIdsByProjectId(int projectId) {
+        List<Tasks> tasks = taskRepository.findAllByProject(projectId)
+                .orElseThrow(() -> new TaskException("Tasks not exist"));
+        return Collections.singletonList(tasks.stream().map(Tasks::getTask_id).toList().toString());
+    }
+
 
 }
