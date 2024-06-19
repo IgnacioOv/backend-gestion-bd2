@@ -61,7 +61,6 @@ public class TaskController {
             Tasks task = new Tasks();
             task.setTask_id(taskRequest.getId());
             task.setName(taskRequest.getName());
-            task.setUser(userService.getUserById(taskRequest.getUser()));
             task.setDescription(taskRequest.getDescription());
             task.setProject(projectService.getProjectById(taskRequest.getProject()));
             task.setSkillLevel(taskRequest.getSkillLevel());
@@ -75,6 +74,19 @@ public class TaskController {
         } catch (ProjectException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (TaskException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    // assign user to task
+    @PutMapping("/assign/{taskId}/{userId}")
+    public ResponseEntity<Object> assignUserToTask(@PathVariable int taskId, @PathVariable int userId) {
+        try {
+            taskService.assignUserToTask(taskId, userService.getUserById(userId));
+            return ResponseEntity.status(HttpStatus.OK).body("User assigned to task");
+        } catch (TaskException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (UserException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
