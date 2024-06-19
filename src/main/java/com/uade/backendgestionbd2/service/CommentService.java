@@ -38,12 +38,14 @@ public class CommentService {
 
     public List<Comments> getCommentsByProject(int projectId) {
         List<String> taskIds = taskService.getTaskIdsByProjectId(projectId);
+        System.out.println(taskIds.size() + " tasks found");
         List<Comments> comments = new ArrayList<>();
 
         for (String taskId : taskIds) {
             Optional<List<Comments>> taskComments = commentRepository.findAllByTask(taskId);
             taskComments.ifPresent(comments::addAll);
         }
+        System.out.println(comments.size() + " comments found");
 
         return comments;
     }

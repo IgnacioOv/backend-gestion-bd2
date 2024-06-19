@@ -66,7 +66,12 @@ public class TaskService {
     public List<String> getTaskIdsByProjectId(int projectId) {
         List<Tasks> tasks = taskRepository.findAllByProject(projectId)
                 .orElseThrow(() -> new TaskException("Tasks not exist"));
-        return Collections.singletonList(tasks.stream().map(Tasks::getTask_id).toList().toString());
+
+        System.out.println(tasks.size() + " tasks found");
+
+        return tasks.stream()
+                .map(task -> String.valueOf(task.getTask_id())) // Convertir Integer a String
+                .collect(Collectors.toList());
     }
 
 
