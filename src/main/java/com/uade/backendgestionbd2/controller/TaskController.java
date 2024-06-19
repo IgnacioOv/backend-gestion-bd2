@@ -39,7 +39,7 @@ public class TaskController {
             task.setEnd_date(taskRequest.getEndDate());
             task.setStart_date(taskRequest.getStartDate());
             task.setStatus(taskRequest.getStatus());
-            task.setUser(userService.getUserById(taskRequest.getUser()));
+//            task.setUser(userService.getUserById(taskRequest.getUser()));
 
             // si todo esta bien, crear la tarea
             taskService.createTask(task);
