@@ -8,6 +8,7 @@ import com.uade.backendgestionbd2.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +42,9 @@ public class ReportController {
         byte[] pdfContent = filesService.generateProjectReportPDF(project, tasks, users, comments);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "inline; filename=project_report.pdf");
-
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "documento.pdf");
+        headers.setContentLength(pdfContent.length);
         return new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
     }
 
@@ -56,9 +58,12 @@ public class ReportController {
 
         byte[] excelContent = filesService.generateProjectReportExcel(project, tasks, users, comments);
 
+        // Configurar HttpHeaders para la respuesta
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "inline; filename=project_report.xlsx");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=project_report.xlsx");
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
+        // Retornar ResponseEntity con el contenido del archivo Excel y los encabezados configurados
         return new ResponseEntity<>(excelContent, headers, HttpStatus.OK);
     }
 }

@@ -27,25 +27,54 @@ public class FilesService {
             Document document = new Document(pdf);
 
             // Estado del proyecto
-            document.add(new Paragraph("** Estado del proyecto **"));
-            document.add(new Paragraph(project.toString())); // Reemplaza con el formato que desees
+            Paragraph estadoProyectoTitle = new Paragraph("Estado del proyecto")
+                    .setFontSize(18)  // Tamaño de la fuente
+                    .setBold()        // Texto en negrita
+                    .setUnderline();  // Subrayado
+            document.add(estadoProyectoTitle);
+            document.add(new Paragraph("Nombre del proyecto: " + project.getName()));
+            document.add(new Paragraph("Descripción: " + project.getDescription()));
+            document.add(new Paragraph("Estado: " + project.getStatus() + "%" ));
+            document.add(new Paragraph("Fecha de inicio: " + project.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+            document.add(new Paragraph("Fecha de fin: " + project.getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+            // Aquí debes definir el formato específico para la información del proyecto
 
             // Información de tareas
-            document.add(new Paragraph("** Información de tareas **"));
+            Paragraph infoTareasTitle = new Paragraph("Información de tareas")
+                    .setFontSize(16)  // Tamaño de la fuente
+                    .setBold()        // Texto en negrita
+                    .setUnderline();  // Subrayado
+            document.add(infoTareasTitle);
             for (Tasks task : tasks) {
-                document.add(new Paragraph("Nombre de la tarea: " + task.getName() + " : " + task.getStatus() + "% y Responsable: " + task.getUser().getName()));
+                Paragraph tareaInfo = new Paragraph("Nombre de la tarea: " + task.getName() +
+                        " : " + task.getStatus() + "% y Responsable: " + task.getUser().getName())
+                        .setMarginLeft(20);  // Indentación para mayor claridad
+                document.add(tareaInfo);
             }
 
             // Personal Asignado Al proyecto
-            document.add(new Paragraph("** Personal Asignado Al proyecto **"));
+            Paragraph personalTitle = new Paragraph("Personal Asignado Al proyecto")
+                    .setFontSize(16)  // Tamaño de la fuente
+                    .setBold()        // Texto en negrita
+                    .setUnderline();  // Subrayado
+            document.add(personalTitle);
             for (Users user : users) {
-                document.add(new Paragraph(user.getName()));
+                Paragraph usuarioInfo = new Paragraph("Empleado: " + user.getName() + " " + user.getLast_name() +
+                        " - (" + user.getEmail() + ")")
+                        .setMarginLeft(20);  // Indentación para mayor claridad
+                document.add(usuarioInfo);
             }
 
             // Listado de comentarios
-            document.add(new Paragraph("** Listado de comentarios **"));
+            Paragraph comentariosTitle = new Paragraph("Listado de comentarios")
+                    .setFontSize(16)  // Tamaño de la fuente
+                    .setBold()        // Texto en negrita
+                    .setUnderline();  // Subrayado
+            document.add(comentariosTitle);
             for (Comments comment : comments) {
-                document.add(new Paragraph(comment.toString())); // Reemplaza con el formato que desees
+                Paragraph comentarioInfo = new Paragraph("Comentario: " + comment.getComment() + " - (" + comment.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ")")
+                        .setMarginLeft(20);  // Indentación para mayor claridad
+                document.add(comentarioInfo);
             }
 
             document.close();
@@ -59,74 +88,92 @@ public class FilesService {
 
     public byte[] generateProjectReportExcel(Projects project, List<Tasks> tasks, List<Users> users, List<Comments> comments) {
         // Implementación de la generación de un archivo Excel
-        try (Workbook workbook = new XSSFWorkbook()) {
-            // Crear una nueva hoja de Excel
-            Sheet sheet = workbook.createSheet("Project Report");
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Reporte del Proyecto");
 
-            // Estilo para las cabeceras
-            CellStyle headerCellStyle = workbook.createCellStyle();
-            Font headerFont = workbook.createFont();
-            headerFont.setBold(true);
-            headerCellStyle.setFont(headerFont);
-
-            // Contador para las filas
-            int rowNum = 0;
+            // Estilo para los títulos
+            CellStyle titleStyle = workbook.createCellStyle();
+            Font titleFont = workbook.createFont();
+            titleFont.setBold(true);
+            titleFont.setFontHeightInPoints((short) 16);
+            titleStyle.setFont(titleFont);
 
             // Estado del proyecto
-            Row projectRow = sheet.createRow(rowNum++);
-            projectRow.createCell(0).setCellValue("Estado del proyecto");
-            // Aquí puedes agregar más celdas con la información específica del proyecto
-             projectRow.createCell(1).setCellValue(project.getName());
-            projectRow.createCell(2).setCellValue(project.getDescription());
-            projectRow.createCell(3).setCellValue(project.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            projectRow.createCell(4).setCellValue(project.getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            projectRow.createCell(5).setCellValue(project.getStatus());
+            Row estadoProyectoRow = sheet.createRow(0);
+            Cell estadoProyectoCell = estadoProyectoRow.createCell(0);
+            estadoProyectoCell.setCellValue("Estado del proyecto");
+            estadoProyectoCell.setCellStyle(titleStyle);
+
+            Row nombreProyectoRow = sheet.createRow(1);
+            nombreProyectoRow.createCell(0).setCellValue("Nombre del proyecto:");
+            nombreProyectoRow.createCell(1).setCellValue(project.getName());
+
+            Row descripcionRow = sheet.createRow(2);
+            descripcionRow.createCell(0).setCellValue("Descripción:");
+            descripcionRow.createCell(1).setCellValue(project.getDescription());
+
+            Row estadoRow = sheet.createRow(3);
+            estadoRow.createCell(0).setCellValue("Estado:");
+            estadoRow.createCell(1).setCellValue(project.getStatus() + "%");
+
+            Row fechaInicioRow = sheet.createRow(4);
+            fechaInicioRow.createCell(0).setCellValue("Fecha de inicio:");
+            fechaInicioRow.createCell(1).setCellValue(project.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+            Row fechaFinRow = sheet.createRow(5);
+            fechaFinRow.createCell(0).setCellValue("Fecha de fin:");
+            fechaFinRow.createCell(1).setCellValue(project.getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
             // Información de tareas
-            Row tasksHeaderRow = sheet.createRow(rowNum++);
-            tasksHeaderRow.createCell(0).setCellValue("Información de tareas");
-            // Crear celdas para cada tarea
-            for (Tasks task : tasks) {
-                Row taskRow = sheet.createRow(rowNum++);
-                taskRow.createCell(0).setCellValue("Nombre de la tarea: " + task.getName());
+            int rowNum = 7;
+            Row infoTareasRow = sheet.createRow(rowNum++);
+            Cell infoTareasCell = infoTareasRow.createCell(0);
+            infoTareasCell.setCellValue("Información de tareas");
+            infoTareasCell.setCellStyle(titleStyle);
 
-                // Puedes agregar más detalles de la tarea, como el porcentaje y el responsable
-                 taskRow.createCell(1).setCellValue("Procetaje de Completitud:" + task.getStatus() + "%" );
-                taskRow.createCell(2).setCellValue("Responsable: " + task.getUser().getName() + " " + task.getUser().getLast_name());
+            for (Tasks task : tasks) {
+                Row tareaRow = sheet.createRow(rowNum++);
+                tareaRow.createCell(0).setCellValue("Nombre de la tarea: " + task.getName());
+                tareaRow.createCell(1).setCellValue("Porcentaje de tarea: " + task.getStatus() + "%");
+                tareaRow.createCell(2).setCellValue("Responsable: " + task.getUser().getName());
             }
 
             // Personal asignado al proyecto
-            Row usersHeaderRow = sheet.createRow(rowNum++);
-            usersHeaderRow.createCell(0).setCellValue("Personal asignado al proyecto");
-            // Crear celdas para cada usuario asignado
+            Row personalRow = sheet.createRow(rowNum++);
+            Cell personalCell = personalRow.createCell(0);
+            personalCell.setCellValue("Personal asignado al proyecto");
+            personalCell.setCellStyle(titleStyle);
+
             for (Users user : users) {
-                Row userRow = sheet.createRow(rowNum++);
-                userRow.createCell(0).setCellValue(user.getUsername() + " " + user.getLast_name());
+                Row usuarioRow = sheet.createRow(rowNum++);
+                usuarioRow.createCell(0).setCellValue("Empleado: " + user.getName() + " " + user.getLast_name());
+                usuarioRow.createCell(1).setCellValue("Email: " + user.getEmail());
             }
 
             // Listado de comentarios
-            Row commentsHeaderRow = sheet.createRow(rowNum++);
-            commentsHeaderRow.createCell(0).setCellValue("Listado de comentarios");
-            // Crear celdas para cada comentario
+            Row comentariosRow = sheet.createRow(rowNum++);
+            Cell comentariosCell = comentariosRow.createCell(0);
+            comentariosCell.setCellValue("Listado de comentarios");
+            comentariosCell.setCellStyle(titleStyle);
+
             for (Comments comment : comments) {
-                Row commentRow = sheet.createRow(rowNum++);
-                commentRow.createCell(0).setCellValue("Comentarios: " + comment.getComment() + " " + comment.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                Row comentarioRow = sheet.createRow(rowNum++);
+                comentarioRow.createCell(0).setCellValue("Comentario: " + comment.getComment());
+                comentarioRow.createCell(1).setCellValue("Fecha: " + comment.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             }
 
-            // Ajustar automáticamente el ancho de las columnas
-            for (int i = 0; i < sheet.getRow(0).getPhysicalNumberOfCells(); i++) {
+            // Ajustar anchos de columnas
+            for (int i = 0; i < 3; i++) {
                 sheet.autoSizeColumn(i);
             }
 
-            // Convertir el libro de Excel a bytes
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            workbook.write(outputStream);
-            return outputStream.toByteArray();
-
+            workbook.write(baos);
+            workbook.close();
+            return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
-            // Manejo de excepciones si ocurre algún problema al crear el archivo Excel
-            throw new RuntimeException("Error al generar el reporte en Excel: " + e.getMessage());
+            throw new RuntimeException("Error al generar el archivo Excel", e);
         }
 
     }
