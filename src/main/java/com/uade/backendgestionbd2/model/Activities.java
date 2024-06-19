@@ -16,7 +16,7 @@ import java.util.Date;
 public class Activities {
 
     @Id
-    private String Activity_id;
+    private String id;
 
     private String task_id;
     private String user_id;
