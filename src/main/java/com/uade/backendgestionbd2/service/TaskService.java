@@ -3,6 +3,7 @@ package com.uade.backendgestionbd2.service;
 import com.uade.backendgestionbd2.exception.TaskException;
 import com.uade.backendgestionbd2.model.Projects;
 import com.uade.backendgestionbd2.model.Tasks;
+import com.uade.backendgestionbd2.model.Users;
 import com.uade.backendgestionbd2.repository.TaskRepository;
 import com.uade.backendgestionbd2.util.SkillLevel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,26 +29,6 @@ public class TaskService {
                 t -> {
                     throw new TaskException("Task already exists");
                 },() -> {
-                    //comprobar cantida de horas del proyecto
-                    int hours = task.getProject().getProjectId();
-                    //comprobar cantidad de horas del usuario
-                    int user_hours = task.getUser().getWeekly_hours();
-
-
-                    // todos los proyectos del usuario
-                    List<Projects> projects = projectService.getProjectsByUserId(task.getUser().getUser_id());
-                    // todas las tareas del usuario
-                    //sumas horas
-                    int sum = projects.stream()
-                            .map(Projects::getWeeklyHours)
-                            .reduce(0, Integer::sum);
-                    if (sum + hours > user_hours) {
-                        throw new TaskException("User does not have enough hours");
-                    }
-                    // Verificar la compatibilidad de habilidades
-                    if (!isSkillLevelCompatible(task.getSkillLevel(), task.getUser().getSkillLevel())) {
-                        throw new TaskException("User does not have the required skill level for this task");
-                    }
                     taskRepository.save(task);
                 }
         );
@@ -75,6 +56,19 @@ public class TaskService {
         );
     }
 
+    // assign user to task
+    public void assignUserToTask(int taskId, Users user) {
+        Tasks task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskException("Task not found"));
+
+        // Verificar la compatibilidad de habilidades
+        if (!isSkillLevelCompatible(task.getSkillLevel(), user.getSkillLevel())) {
+            throw new TaskException("User does not have the required skill level for this task");
+        }
+        task.setUser(user);
+        taskRepository.save(task);
+    }
+
 
     // get task by id
     public Tasks getTaskById(int taskId) {
@@ -92,12 +86,12 @@ public class TaskService {
         List<Tasks> tasks = taskRepository.findAllByProject(projectId)
                 .orElseThrow(() -> new TaskException("Tasks not exist"));
 
-        System.out.println(tasks.size() + " tasks found");
-
         return tasks.stream()
                 .map(task -> String.valueOf(task.getTask_id())) // Convertir Integer a String
                 .collect(Collectors.toList());
     }
+
+
     private boolean isSkillLevelCompatible(SkillLevel required, SkillLevel userSkill) {
         EnumMap<SkillLevel, Integer> skillHierarchy = new EnumMap<>(SkillLevel.class);
 
