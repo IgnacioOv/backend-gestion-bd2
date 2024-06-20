@@ -14,7 +14,7 @@ public interface ProjectRepository extends JpaRepository<Projects, Integer> {
 
 
     @Query(value = "SELECT p.* FROM Projects p " +
-            "INNER JOIN ProjectAssignments pa ON p.project_id = pa.project_id " +
+            "INNER JOIN project_assignments pa ON p.project_id = pa.project_id " +
             "WHERE pa.user_id = :userId", nativeQuery = true)
     List<Projects> findProjectsByUserId(int userId);
 }

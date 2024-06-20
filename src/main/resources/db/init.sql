@@ -50,7 +50,7 @@ CREATE TABLE Tasks (
 
 
 -- Crear la tabla de asignaciones de proyectos
-CREATE TABLE ProjectAssignments (
+CREATE TABLE project_assignments (
                                     project_id INTEGER,
                                     user_id INTEGER,
                                     PRIMARY KEY (project_id, user_id),
@@ -139,7 +139,7 @@ VALUES
 
 
 -- Insertar datos en ProjectAssignments
-INSERT INTO ProjectAssignments (project_id, user_id)
+INSERT INTO project_assignments (project_id, user_id)
 VALUES
     (1, 3), -- Asignar Project Alpha al usuario employee_user2
     (2, 3), -- Asignar Project Beta al usuario employee_user2

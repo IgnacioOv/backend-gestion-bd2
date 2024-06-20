@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 
 @Entity
-@Table(name = "ProjectAssignments")
+//@Table(name = "project_assignments")
 public class ProjectAssignments {
     @Id
     private ProjectAssignmentsId id;
