@@ -2,7 +2,6 @@ package com.uade.backendgestionbd2.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +17,7 @@ public class Activities {
     @Id
     private String id;
 
-    private String task_id;
+    private int task_id;
     private String user_id;
     private String description;
     private Date timestamp;
@@ -28,7 +27,7 @@ public class Activities {
     public Activities() {
     }
 
-    public Activities(String task_id, String user_id, String description, Date timestamp, int progress_percentage, int time_worked) {
+    public Activities(int task_id, String user_id, String description, Date timestamp, int progress_percentage, int time_worked) {
         this.task_id = task_id;
         this.user_id = user_id;
         this.description = description;
