@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
     @Query(value = "SELECT u.*\n" +
             "FROM Users u\n" +
-            "JOIN projectassignments pa ON u.user_id = pa.user_id\n" +
+            "JOIN project_assignments pa ON u.user_id = pa.user_id\n" +
             "JOIN Projects p ON pa.project_id = p.project_id\n" +
             "WHERE p.project_id = :projectId;\n", nativeQuery = true)
     Optional<List<Users>> findUsersByProjectId(int projectId);
