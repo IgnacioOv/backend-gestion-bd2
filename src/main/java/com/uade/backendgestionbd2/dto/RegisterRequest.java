@@ -20,6 +20,6 @@ public class RegisterRequest {
     private String email;
     private String userPassword;
     private Roles role;
-    private int weekly_hours;
+    private int weeklyHours;
     private SkillLevel skillLevel;
 }

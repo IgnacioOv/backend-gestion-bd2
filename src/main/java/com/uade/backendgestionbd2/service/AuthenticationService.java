@@ -23,9 +23,8 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public void register(RegisterRequest request) {
-        Users user = Users.builder().name(request.getFirstname()).last_name(request.getLastname()).email(request.getEmail()).userPassword(this.passwordEncoder.encode(request.getUserPassword())).role(request.getRole()).username(request.getUsername()).build();
+        Users user = Users.builder().name(request.getFirstname()).last_name(request.getLastname()).email(request.getEmail()).userPassword(this.passwordEncoder.encode(request.getUserPassword())).role(request.getRole()).username(request.getUsername()).weekly_hours(request.getWeeklyHours()).skillLevel(request.getSkillLevel()).build();
         repository.save(user);
-        var jwtToken = jwtService.generateToken((UserDetails) user);;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
