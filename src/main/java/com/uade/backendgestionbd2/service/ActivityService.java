@@ -7,6 +7,7 @@ import com.uade.backendgestionbd2.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -55,6 +56,11 @@ public class ActivityService {
     }
 
     public List<Activities> getActivitiesByTaskId(int taskId) {
-        return activityRepository.findByTaskId(taskId);
+        List<Activities> activities = activityRepository.findByTaskId(taskId);
+
+        // Ordenar actividades por timestamp de forma descendente (más nuevo primero)
+        activities.sort(Comparator.comparing(Activities :: getTimestamp).reversed());
+
+        return activities;
     }
 }
