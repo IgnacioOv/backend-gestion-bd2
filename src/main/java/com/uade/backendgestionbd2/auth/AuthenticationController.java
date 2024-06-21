@@ -4,6 +4,7 @@ package com.uade.backendgestionbd2.auth;
 import com.uade.backendgestionbd2.dto.AuthenticationRequest;
 import com.uade.backendgestionbd2.dto.AuthenticationResponse;
 import com.uade.backendgestionbd2.dto.RegisterRequest;
+import com.uade.backendgestionbd2.model.Users;
 import com.uade.backendgestionbd2.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,10 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public void register(@RequestBody RegisterRequest request) {
-        service.register(request);
+    public ResponseEntity register(@RequestBody RegisterRequest request) {
+        Users user =service.register(request);
+        return ResponseEntity.ok(user);
+
     }
 
     @PostMapping("/authenticate")

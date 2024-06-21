@@ -22,9 +22,10 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public void register(RegisterRequest request) {
+    public Users register(RegisterRequest request) {
         Users user = Users.builder().name(request.getFirstname()).last_name(request.getLastname()).email(request.getEmail()).userPassword(this.passwordEncoder.encode(request.getUserPassword())).role(request.getRole()).username(request.getUsername()).weekly_hours(request.getWeeklyHours()).skillLevel(request.getSkillLevel()).build();
         repository.save(user);
+        return user;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
