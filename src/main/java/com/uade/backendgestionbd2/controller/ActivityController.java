@@ -24,8 +24,16 @@ public class ActivityController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addActivity(@RequestBody Activities activity) {
-        activityService.addActivity(activity);
-        return ResponseEntity.ok("Activity added successfully");
+        try {
+            int taskId = activity.getTask_id();
+            int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
+            if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
+                throw new RuntimeException("User is not assigned to this task");
+            }
+            return ResponseEntity.ok("Activity added successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 
     @GetMapping("task/{taskId}")
@@ -34,13 +42,24 @@ public class ActivityController {
     }
 
     @PostMapping("/update")
-    public void updateActivity(@RequestBody Activities activity) {
-        activityService.updateActivity(activity);
+    public ResponseEntity<String> updateActivity(@RequestBody Activities activity) {
+        try {
+            activityService.updateActivity(activity);
+            return ResponseEntity.ok("Activity updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/delete/{activityId}")
-    public void deleteActivity(@PathVariable String activityId) {
-        activityService.deleteActivity(activityId);
+    public ResponseEntity<Object> deleteActivity(@PathVariable String activityId) {
+        try{
+            activityService.deleteActivity(activityId);
+            return ResponseEntity.ok("Activity deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+
 
     }
 

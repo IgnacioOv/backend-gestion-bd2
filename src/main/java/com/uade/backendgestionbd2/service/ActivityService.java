@@ -18,18 +18,26 @@ public class ActivityService {
     private TaskService taskService;
 
     public void addActivity(Activities activity) {
+        int taskId = activity.getTask_id();
+        int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
+        if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
+            throw new RuntimeException("User is not assigned to this task");
+        }
        activityRepository.save(activity);
         int progress = activity.getProgress_percentage();
-        int taskId = activity.getTask_id();
         Tasks task = taskService.getTaskById(taskId);
         task.setStatus(progress);
         taskService.updateTask(task);
     }
 
     public void updateActivity(Activities activity) {
+        int taskId = activity.getTask_id();
+        int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
+        if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
+            throw new RuntimeException("User is not assigned to this task");
+        }
         activityRepository.save(activity);
         int progress = activity.getProgress_percentage();
-        int taskId = activity.getTask_id();
         Tasks task = taskService.getTaskById(taskId);
         task.setStatus(progress);
         taskService.updateTask(task);
@@ -37,6 +45,9 @@ public class ActivityService {
 
     public void deleteActivity(String activityId) {
         Activities activity = activityRepository.findByActivityId(activityId);
+        if (activity == null) {
+            throw new RuntimeException("Activity not found");
+        }
         activityRepository.delete(activity);
         List<Activities> activitiesList = activityRepository.findByTaskId(activity.getTask_id());
         if (activitiesList.isEmpty()) {
