@@ -7,6 +7,7 @@ import com.uade.backendgestionbd2.service.ActivityService;
 import com.uade.backendgestionbd2.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +23,9 @@ public class ActivityController {
     private TaskService taskService;
 
     @PostMapping("/add")
-    public void addActivity(@RequestBody Activities activity) {
+    public ResponseEntity<String> addActivity(@RequestBody Activities activity) {
         activityService.addActivity(activity);
+        return ResponseEntity.ok("Activity added successfully");
     }
 
     @GetMapping("task/{taskId}")
