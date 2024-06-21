@@ -3,6 +3,7 @@ package com.uade.backendgestionbd2.repository;
 import com.uade.backendgestionbd2.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<Users, Integer> {
     // Métodos personalizados si es necesario
     @Query("SELECT u FROM Users u WHERE u.email = :email")
-    Optional<Users> findByEmail(String email);
+    Optional<Users> findByEmail(@Param("email")String email);
 
     @Query(value = "SELECT u.*\n" +
             "FROM Users u\n" +
