@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -21,11 +22,11 @@ public class UserController {
 
     // delete user
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteUser(@PathVariable int id) {
+    public ResponseEntity<Object> deleteUser(@PathVariable("id") int id) {
         userService.deleteUser(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Collections.singletonMap("response", "User deleted successfully"));
     }
-
+    
     // get all users
     @GetMapping("/")
     public ResponseEntity<List<Users>> getAllUsers() {
