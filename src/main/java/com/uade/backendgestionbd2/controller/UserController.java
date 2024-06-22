@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.controller;
 
+import com.uade.backendgestionbd2.dto.UserUpdateDto;
 import com.uade.backendgestionbd2.exception.UserException;
 import com.uade.backendgestionbd2.model.Users;
 import com.uade.backendgestionbd2.service.UserService;
@@ -66,6 +67,12 @@ public class UserController {
             String errorMessage =e.getMessage();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
         }
+    }
+
+    @PutMapping("/update")
+    public void updateUser(@RequestBody UserUpdateDto user) {
+        userService.updateUser(user);
+
     }
 
 

@@ -1,10 +1,12 @@
 package com.uade.backendgestionbd2.service;
 
+import com.uade.backendgestionbd2.dto.UserUpdateDto;
 import com.uade.backendgestionbd2.exception.UserException;
 
 import com.uade.backendgestionbd2.model.Users;
 import com.uade.backendgestionbd2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,15 +16,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-//    // Crear un usuario
-//    public Users createUser(Users user) {
-//        userRepository.findByEmail(user.getEmail())
-//                .ifPresent(u -> {
-//                    throw new UserException("User already exists");
-//                });
-//        return userRepository.save(user);
-//    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //Eliminar un usuario
     public void deleteUser(int userId) {
@@ -55,6 +50,41 @@ public class UserService {
         return userRepository.findUserByTaskId(taskId)
                 .orElseThrow(() -> new UserException("Users not found for taskId: " + taskId));
     }
+
+    public void updateUser(UserUpdateDto user){
+        Users updatedUser = new Users();
+        updatedUser.setUser_id(user.getUserId());
+        updatedUser.setName(user.getFirstname());
+        updatedUser.setLast_name(user.getLastname());
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+        updatedUser.setWeekly_hours(Integer.parseInt(user.getWeeklyHours()));
+        updatedUser.setSkillLevel(user.getSkillLevel());
+        updatedUser.setUsername(user.getUsername());
+        updatedUser.setRole(user.getRole());
+        userRepository.updateUser(updatedUser.getUsername(), updatedUser.getUserPassword(), updatedUser.getRole(), updatedUser.getName(), updatedUser.getLast_name(), updatedUser.getEmail(), updatedUser.getWeekly_hours(), updatedUser.getSkillLevel(), updatedUser.getUser_id());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
