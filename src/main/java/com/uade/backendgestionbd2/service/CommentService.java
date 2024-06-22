@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.service;
 
+import com.uade.backendgestionbd2.dto.CommentsByTaskDto;
 import com.uade.backendgestionbd2.exception.CommentException;
 import com.uade.backendgestionbd2.model.Comments;
 import com.uade.backendgestionbd2.repository.CommentRepository;
@@ -17,6 +18,9 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private TaskService taskService;
 
 
@@ -31,9 +35,21 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public List<Comments> getCommentsByTask(String taskId) {
-        return commentRepository.findAllByTask(taskId)
+    public List<CommentsByTaskDto> getCommentsByTask(String taskId) {
+        List<Comments> request = commentRepository.findAllByTask(taskId)
                 .orElseThrow(() -> new CommentException("Comments not found"));
+
+        List<CommentsByTaskDto> commentsDto = new ArrayList<>();
+
+        for(Comments comments : request){
+            CommentsByTaskDto commentDto = new CommentsByTaskDto();
+            commentDto.setId(comments.getId());
+            commentDto.setUser(userService.getUserById(Integer.parseInt(comments.getUser_id())));
+            commentDto.setComment(comments.getComment());
+            commentDto.setTimestamp(comments.getTimestamp());
+            commentsDto.add(commentDto);
+        }
+        return commentsDto;
     }
 
     public List<Comments> getCommentsByProject(int projectId) {

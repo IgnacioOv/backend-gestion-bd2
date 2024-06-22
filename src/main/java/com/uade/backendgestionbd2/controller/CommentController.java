@@ -1,6 +1,7 @@
 package com.uade.backendgestionbd2.controller;
 
 import com.uade.backendgestionbd2.dto.CommentRequest;
+import com.uade.backendgestionbd2.dto.CommentsByTaskDto;
 import com.uade.backendgestionbd2.exception.CommentException;
 import com.uade.backendgestionbd2.model.Comments;
 import com.uade.backendgestionbd2.service.CommentService;
@@ -43,7 +44,7 @@ public class CommentController {
     public ResponseEntity<Object> getCommentsByTask(@PathVariable String taskId) {
         // Implementación
         try {
-            List<Comments> comments = commentService.getCommentsByTask(taskId);
+            List<CommentsByTaskDto> comments = commentService.getCommentsByTask(taskId);
             return ResponseEntity.status(HttpStatus.OK).body(comments);
         }catch (CommentException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
