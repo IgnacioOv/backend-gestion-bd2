@@ -2,6 +2,7 @@ package com.uade.backendgestionbd2.controller;
 
 
 
+import com.uade.backendgestionbd2.dto.ActivitiesRequest;
 import com.uade.backendgestionbd2.model.Activities;
 import com.uade.backendgestionbd2.service.ActivityService;
 import com.uade.backendgestionbd2.service.TaskService;
@@ -23,7 +24,7 @@ public class ActivityController {
     private TaskService taskService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addActivity(@RequestBody Activities activity) {
+    public ResponseEntity<String> addActivity(@RequestBody ActivitiesRequest activity) {
         try {
             int taskId = activity.getTask_id();
             int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
