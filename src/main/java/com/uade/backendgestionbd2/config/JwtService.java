@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.config;
 
+import com.uade.backendgestionbd2.model.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,10 +28,12 @@ public class JwtService {
     }
 
     private String buildToken(UserDetails userDetails, long expiration) {
+
         return Jwts
                 .builder()
                 .setSubject(userDetails.getUsername())
                 .claim("role", userDetails.getAuthorities().toString().replace("[", "").replace("]", "")) // Aquí debes obtener el rol del UserDetails o de otra fuente
+                .claim("userId",((Users)userDetails).getUser_id())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
