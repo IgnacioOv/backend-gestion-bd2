@@ -79,9 +79,9 @@ public class ProjectAssignmentsService {
         // recuperamos las horas del proyecto
         int hours = projectService.getProjectById(projectId).getWeeklyHours();
         // todos los proyectos del usuario
-        List<Projects> projects = projectService.getProjectsByUserId(userId);
+        List<Projects> projects = projectService.getProjectsByUserId(newUserId);
         // horas del usuario por semana
-        int user_hours = userService.getUserById(userId).getWeekly_hours();
+        int user_hours = userService.getUserById(newUserId).getWeekly_hours();
         // todas las proyectos del usuario
         //sumas horas
         int sum = projects.stream()
