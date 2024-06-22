@@ -30,9 +30,10 @@ public class JwtService {
         return Jwts
                 .builder()
                 .setSubject(userDetails.getUsername())
+                .claim("role", "ROLE_USER") // Aquí debes obtener el rol del UserDetails o de otra fuente
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSecretKey(),SignatureAlgorithm.HS256)
+                .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
