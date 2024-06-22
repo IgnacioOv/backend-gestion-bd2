@@ -79,7 +79,7 @@ VALUES
 -- Insertar datos en Users con contraseñas encriptadas en Base64
 INSERT INTO Users (username, password, role, name, last_name, email, weekly_hours, skill_level)
 VALUES
-    ('admin_user', '8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92', 'Admin', 'Admin', 'User', 'admin@example.com', 40, 'BACKEND_SENIOR'),
+    ('admin_user', '$2a$10$guXKfCk.dutXNVe11yoxRuk1DfxUsYXsYBUlUI0v0zyjt3UZzKLLW', 'Admin', 'Admin', 'User', 'admin@example.com', 40, 'BACKEND_SENIOR'), // Contraseña:1234
     ('employee_user1', '8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92', 'Employee', 'Employee', 'User1', 'employee1@example.com', 35, 'FRONTEND_MID'),
     ('employee_user2', '8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92', 'Employee', 'Employee', 'User2', 'employee2@example.com', 30, 'DEVOPS_JUNIOR'),
     ('user3', '8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92', 'Employee', 'User', 'Three', 'user3@example.com', 25, 'BACKEND_JUNIOR'),
