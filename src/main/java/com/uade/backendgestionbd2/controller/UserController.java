@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.controller;
 
+import com.uade.backendgestionbd2.dto.UserRequestDto;
 import com.uade.backendgestionbd2.dto.UserUpdateDto;
 import com.uade.backendgestionbd2.exception.UserException;
 import com.uade.backendgestionbd2.model.Users;
@@ -50,7 +51,7 @@ public class UserController {
     @GetMapping("/project/{projectId}")
     public ResponseEntity<Object> getUsersByProjectId(@PathVariable int projectId) {
         try {
-            List<Users> users = userService.findUsersByProjectId(projectId);
+            List<UserRequestDto> users = userService.findUsersByProjectId(projectId);
             return ResponseEntity.ok(users);
         } catch (UserException e) {
             String errorMessage = e.getMessage();

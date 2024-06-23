@@ -5,10 +5,10 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import com.uade.backendgestionbd2.dto.UserRequestDto;
 import com.uade.backendgestionbd2.model.Comments;
 import com.uade.backendgestionbd2.model.Projects;
 import com.uade.backendgestionbd2.model.Tasks;
-import com.uade.backendgestionbd2.model.Users;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class FilesService {
 
-    public byte[] generateProjectReportPDF(Projects project, List<Tasks> tasks, List<Users> users, List<Comments> comments) {
+    public byte[] generateProjectReportPDF(Projects project, List<Tasks> tasks, List<UserRequestDto> users, List<Comments> comments) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             PdfWriter writer = new PdfWriter(baos);
             PdfDocument pdf = new PdfDocument(writer);
@@ -58,8 +58,8 @@ public class FilesService {
                     .setBold()        // Texto en negrita
                     .setUnderline();  // Subrayado
             document.add(personalTitle);
-            for (Users user : users) {
-                Paragraph usuarioInfo = new Paragraph("Empleado: " + user.getName() + " " + user.getLast_name() +
+            for (UserRequestDto user : users) {
+                Paragraph usuarioInfo = new Paragraph("Empleado: " + user.getFirstname() + " " + user.getLastname() +
                         " - (" + user.getEmail() + ")")
                         .setMarginLeft(20);  // Indentación para mayor claridad
                 document.add(usuarioInfo);
@@ -86,7 +86,7 @@ public class FilesService {
     }
 
 
-    public byte[] generateProjectReportExcel(Projects project, List<Tasks> tasks, List<Users> users, List<Comments> comments) {
+    public byte[] generateProjectReportExcel(Projects project, List<Tasks> tasks, List<UserRequestDto> users, List<Comments> comments) {
         // Implementación de la generación de un archivo Excel
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             Workbook workbook = new XSSFWorkbook();
@@ -145,9 +145,9 @@ public class FilesService {
             personalCell.setCellValue("Personal asignado al proyecto");
             personalCell.setCellStyle(titleStyle);
 
-            for (Users user : users) {
+            for (UserRequestDto user : users) {
                 Row usuarioRow = sheet.createRow(rowNum++);
-                usuarioRow.createCell(0).setCellValue("Empleado: " + user.getName() + " " + user.getLast_name());
+                usuarioRow.createCell(0).setCellValue("Empleado: " + user.getFirstname() + " " + user.getLastname());
                 usuarioRow.createCell(1).setCellValue("Email: " + user.getEmail());
             }
 

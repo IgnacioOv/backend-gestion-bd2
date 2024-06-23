@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.service;
 
+import com.uade.backendgestionbd2.dto.UserRequestDto;
 import com.uade.backendgestionbd2.dto.UserUpdateDto;
 import com.uade.backendgestionbd2.exception.UserException;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,9 +41,27 @@ public class UserService {
     }
 
     // get users by project id
-    public List<Users> findUsersByProjectId(int projectId) {
-        return userRepository.findUsersByProjectId(projectId)
+    public List<UserRequestDto> findUsersByProjectId(int projectId) {
+        List<Users> users = userRepository.findUsersByProjectId(projectId)
                 .orElseThrow(() -> new UserException("Users not found for projectId: " + projectId));
+
+        List<UserRequestDto> dtoUsers = new ArrayList<>();
+
+        for(Users user : users){
+            UserRequestDto userDto = new UserRequestDto();
+            userDto.setId(user.getUser_id());
+            userDto.setFirstname(user.getName());
+            userDto.setLastname(user.getLast_name());
+            userDto.setEmail(user.getEmail());
+            userDto.setWeekyHours(user.getWeekly_hours());
+            userDto.setSkillLevel(user.getSkillLevel());
+            userDto.setUsername(user.getUsername());
+            userDto.setRole(user.getRole());
+            dtoUsers.add(userDto);
+        }
+
+        return dtoUsers;
+
     }
 
 

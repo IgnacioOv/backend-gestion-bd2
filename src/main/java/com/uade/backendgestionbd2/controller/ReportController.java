@@ -1,5 +1,6 @@
 package com.uade.backendgestionbd2.controller;
 
+import com.uade.backendgestionbd2.dto.UserRequestDto;
 import com.uade.backendgestionbd2.model.Comments;
 import com.uade.backendgestionbd2.model.Projects;
 import com.uade.backendgestionbd2.model.Tasks;
@@ -36,7 +37,7 @@ public class ReportController {
     public ResponseEntity<byte[]> getProjectReport(@PathVariable int projectId) {
         Projects project = projectService.getProjectById(projectId);
         List<Tasks> tasks = taskService.getAllTasksByProject(projectId);
-        List<Users> users = userService.findUsersByProjectId(projectId);
+        List<UserRequestDto> users = userService.findUsersByProjectId(projectId);
         List<Comments> comments = commentService.getCommentsByProject(projectId);
 
         byte[] pdfContent = filesService.generateProjectReportPDF(project, tasks, users, comments);
@@ -53,7 +54,7 @@ public class ReportController {
     public ResponseEntity<byte[]> getProjectReportExcel(@PathVariable int projectId) {
         Projects project = projectService.getProjectById(projectId);
         List<Tasks> tasks = taskService.getAllTasksByProject(projectId);
-        List<Users> users = userService.findUsersByProjectId(projectId);
+        List<UserRequestDto> users = userService.findUsersByProjectId(projectId);
         List<Comments> comments = commentService.getCommentsByProject(projectId);
 
         byte[] excelContent = filesService.generateProjectReportExcel(project, tasks, users, comments);
