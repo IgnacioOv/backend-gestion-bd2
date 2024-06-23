@@ -14,7 +14,7 @@ public class UserRequestDto {
     private String firstname;
     private String lastname;
     private String email;
-    private int weekyHours;
+    private int weeklyHours;
     private SkillLevel skillLevel;
 
 
@@ -24,7 +24,7 @@ public class UserRequestDto {
         userDto.setFirstname(user.getName());
         userDto.setLastname(user.getLast_name());
         userDto.setEmail(user.getEmail());
-        userDto.setWeekyHours(user.getWeekly_hours());
+        userDto.setWeeklyHours(user.getWeekly_hours());
         userDto.setSkillLevel(user.getSkillLevel());
         userDto.setUsername(user.getUsername());
         userDto.setRole(user.getRole());
