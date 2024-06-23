@@ -31,7 +31,7 @@ public class JwtService {
 
         return Jwts
                 .builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(((Users)userDetails).getEmail())
                 .claim("role", userDetails.getAuthorities().toString().replace("[", "").replace("]", "")) // Aquí debes obtener el rol del UserDetails o de otra fuente
                 .claim("userId",((Users)userDetails).getUser_id())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -41,8 +41,8 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractClaim(token, Claims::getSubject);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String email = extractClaim(token, Claims::getSubject);
+        return (email.equals(((Users)userDetails).getEmail())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
