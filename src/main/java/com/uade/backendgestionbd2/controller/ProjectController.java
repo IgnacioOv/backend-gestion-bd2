@@ -7,9 +7,11 @@ import com.uade.backendgestionbd2.model.Projects;
 import com.uade.backendgestionbd2.service.ProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -39,13 +41,18 @@ public class ProjectController {
     public Projects addProject(@RequestBody ProjectRequest project) {
         return projectService.addProject(project);
     }
+
+    @SuppressWarnings("rawtypes")
     @DeleteMapping("/delete/{projectId}")
-    public void deleteProject(@PathVariable int projectId) {
+    public ResponseEntity deleteProject(@PathVariable("projectId") int projectId) {
         projectService.deleteProject(projectId);
+        return ResponseEntity.ok(Collections.singletonMap("response", "project deleted successfully"));
     }
 
+    @SuppressWarnings("rawtypes")
     @PutMapping("/update/{projectId}")
-    public Projects updateProject(@PathVariable int projectId, @RequestBody ProjectRequest project) {
-        return projectService.updateProject(projectId, project);
+    public ResponseEntity updateProject(@PathVariable("projectId") int projectId, @RequestBody ProjectRequest project) {
+        projectService.updateProject(projectId, project);
+        return ResponseEntity.ok(Collections.singletonMap("response", "project updated successfully"));
     }
 }
