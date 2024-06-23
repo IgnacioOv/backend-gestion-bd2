@@ -8,6 +8,8 @@ import com.uade.backendgestionbd2.model.Projects;
 import com.uade.backendgestionbd2.repository.ProjectAssignmentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class ProjectAssignmentsService {
     private UserService userService;
 
     // Asignar un usuario a un proyecto
-    public void assignmentResourceToProject(int projectId, int userId) {
+    public ResponseEntity<Object> assignmentResourceToProject(int projectId, int userId) {
         ProjectAssignmentsId assignmentsId = new ProjectAssignmentsId(projectId, userId);
         // Verificar si ya existe una asignación para evitar duplicados
         if (projectAssignmentsRepository.existsById(assignmentsId)) {
@@ -47,21 +49,22 @@ public class ProjectAssignmentsService {
             throw new ProjectAssignmentsException("User does not have enough hours");
         }
         ProjectAssignments projectAssignments = new ProjectAssignments(projectId, userId);
-        projectAssignmentsRepository.save(projectAssignments);
+        return new ResponseEntity<>(projectAssignmentsRepository.save(projectAssignments), HttpStatus.OK);
     }
 
     // Eliminar una asignación de usuario a proyecto
-    public void deleteAssignment(int projectId, int userId) {
+    public ResponseEntity<Object> deleteAssignment(int projectId, int userId) {
         ProjectAssignmentsId assignmentsId = new ProjectAssignmentsId(projectId, userId);
         if (projectAssignmentsRepository.existsById(assignmentsId)) {
             projectAssignmentsRepository.deleteById(assignmentsId);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             throw new ResourceNotFoundException("Assignment not found");
         }
     }
 
     // Modificar la asignación de un usuario a un proyecto
-    public void modifyUserAssignment(int projectId, int userId, int newUserId) {
+    public ResponseEntity<Object> modifyUserAssignment(int projectId, int userId, int newUserId) {
         ProjectAssignmentsId oldAssignmentsId = new ProjectAssignmentsId(projectId, userId);
         ProjectAssignmentsId newAssignmentsId = new ProjectAssignmentsId(projectId, newUserId);
 
@@ -92,10 +95,12 @@ public class ProjectAssignmentsService {
         }
 
         // Actualizar la asignación
+
+
         ProjectAssignments projectAssignments = existingAssignment.get();
         projectAssignmentsRepository.deleteById(oldAssignmentsId); // Eliminar la asignación antigua
         projectAssignments.setId(newAssignmentsId); // Actualizar la ID de la asignación
-        projectAssignmentsRepository.save(projectAssignments); // Guardar la nueva asignación
+        return new ResponseEntity<>(projectAssignmentsRepository.save(projectAssignments), HttpStatus.OK);// Guardar la nueva asignación
     }
 }
 

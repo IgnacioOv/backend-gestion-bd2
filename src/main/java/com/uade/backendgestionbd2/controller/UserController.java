@@ -31,8 +31,8 @@ public class UserController {
     
     // get all users
     @GetMapping("/")
-    public ResponseEntity<List<Users>> getAllUsers() {
-        List<Users> users = userService.getAllUsers();
+    public ResponseEntity<List<UserRequestDto>> getAllUsers() {
+        List<UserRequestDto> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
@@ -62,8 +62,8 @@ public class UserController {
     @GetMapping("/task/{taskId}")
     public ResponseEntity<Object> getUsersByTaskId(@PathVariable int taskId) {
         try {
-            Users user = userService.findUsersByTaskId(taskId);
-            return ResponseEntity.ok(user);
+            UserRequestDto userDto = userService.findUsersByTaskId(taskId);
+            return ResponseEntity.ok(userDto);
         } catch (UserException e) {
             String errorMessage =e.getMessage();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
@@ -71,9 +71,14 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public void updateUser(@RequestBody UserUpdateDto user) {
-        userService.updateUser(user);
-
+    public ResponseEntity<Object> updateUser(@RequestBody UserUpdateDto user) {
+        try {
+            userService.updateUser(user);
+            return ResponseEntity.ok(Collections.singletonMap("response", "User updated successfully"));
+        } catch (UserException e) {
+            String errorMessage = e.getMessage();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+        }
     }
 
 

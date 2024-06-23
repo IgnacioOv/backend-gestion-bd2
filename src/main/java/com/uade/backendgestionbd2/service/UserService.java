@@ -6,6 +6,7 @@ import com.uade.backendgestionbd2.exception.UserException;
 
 import com.uade.backendgestionbd2.model.Users;
 import com.uade.backendgestionbd2.repository.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,13 @@ public class UserService {
 
 
     // get all users
-    public List<Users> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserRequestDto> getAllUsers() {
+        List<Users> allUsers = userRepository.findAll();
+        List<UserRequestDto> dtoUsers = new ArrayList<>();
+        for(Users user : allUsers){
+            dtoUsers.add(new UserRequestDto().userToDto(user));
+        }
+        return dtoUsers;
     }
 
     // get user by id
@@ -48,16 +54,7 @@ public class UserService {
         List<UserRequestDto> dtoUsers = new ArrayList<>();
 
         for(Users user : users){
-            UserRequestDto userDto = new UserRequestDto();
-            userDto.setId(user.getUser_id());
-            userDto.setFirstname(user.getName());
-            userDto.setLastname(user.getLast_name());
-            userDto.setEmail(user.getEmail());
-            userDto.setWeekyHours(user.getWeekly_hours());
-            userDto.setSkillLevel(user.getSkillLevel());
-            userDto.setUsername(user.getUsername());
-            userDto.setRole(user.getRole());
-            dtoUsers.add(userDto);
+            dtoUsers.add(new UserRequestDto().userToDto(user));
         }
 
         return dtoUsers;
@@ -66,9 +63,9 @@ public class UserService {
 
 
     // get users by task id
-    public Users findUsersByTaskId(int taskId) {
-        return userRepository.findUserByTaskId(taskId)
-                .orElseThrow(() -> new UserException("Users not found for taskId: " + taskId));
+    public UserRequestDto findUsersByTaskId(int taskId) {
+        return new UserRequestDto().userToDto(userRepository.findUserByTaskId(taskId)
+                .orElseThrow(() -> new UserException("Users not found for taskId: " + taskId)));
     }
 
     public void updateUser(UserUpdateDto user){
