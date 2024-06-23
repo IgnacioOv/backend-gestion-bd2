@@ -69,11 +69,12 @@ public class UserController {
         }
     }
 
+    // update user
+    @SuppressWarnings("rawtypes")
     @PutMapping("/update")
-    public void updateUser(@RequestBody UserUpdateDto user) {
+    public ResponseEntity updateUser(@RequestBody UserUpdateDto user) {
         userService.updateUser(user);
-
+        return ResponseEntity.ok(Collections.singletonMap("response", "User updated successfully"));
     }
-
 
 }
