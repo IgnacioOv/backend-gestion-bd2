@@ -23,10 +23,9 @@ public class TaskRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private int status;
-    private int user;
 
 
-    public TaskRequest(String name, String description, int project, SkillLevel skillLevel, LocalDate startDate, LocalDate endDate, int status, int user) {
+    public TaskRequest(String name, String description, int project, SkillLevel skillLevel, LocalDate startDate, LocalDate endDate, int status) {
         this.name = name;
         this.description = description;
         this.project = project;
@@ -34,7 +33,6 @@ public class TaskRequest {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        this.user = user;
     }
 
 }

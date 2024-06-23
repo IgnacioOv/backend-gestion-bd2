@@ -32,7 +32,7 @@ CREATE TABLE Projects (
 CREATE TABLE Tasks (
                        task_id SERIAL PRIMARY KEY,
                        project_id INTEGER NOT NULL,
-                       user_id INTEGER NOT NULL,
+                       user_id INTEGER,
                        name VARCHAR(100) NOT NULL,
                        description TEXT,
                        skill_level VARCHAR(50) CHECK (
