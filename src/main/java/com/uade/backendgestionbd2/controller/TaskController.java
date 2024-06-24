@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/task")
 public class TaskController {
@@ -83,11 +86,17 @@ public class TaskController {
     public ResponseEntity<Object> assignUserToTask(@PathVariable int taskId, @PathVariable int userId) {
         try {
             taskService.assignUserToTask(taskId, userService.getUserById(userId));
-            return ResponseEntity.status(HttpStatus.OK).body("User assigned to task");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User assigned to task");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (TaskException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (UserException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 

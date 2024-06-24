@@ -10,6 +10,9 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/project-assignment")
 public class ProjectAssignmentController {
@@ -18,14 +21,17 @@ public class ProjectAssignmentController {
     private ProjectAssignmentsService projectAssignmentsService;
 
     @PostMapping("/assign")
-    public ResponseEntity<Object> assignUserToProject(@RequestBody ProjectAssignmentDto projectAssignment) {
+    public ResponseEntity<Map<String, String>> assignUserToProject(@RequestBody ProjectAssignmentDto projectAssignment) {
         int userId = projectAssignment.getUserId();
         int projectId = projectAssignment.getProjectId();
+        Map<String, String> response = new HashMap<>();
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(projectAssignmentsService.assignmentResourceToProject(projectId, userId));
+            projectAssignmentsService.assignmentResourceToProject(projectId, userId);
+            response.put("message", "User assigned to project successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
 
