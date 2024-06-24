@@ -77,6 +77,16 @@ public class ActivityController {
         return activityService.getActivityById(activityId);
     }
 
+    @DeleteMapping("/delete/task/{taskId}")
+    public ResponseEntity<Object> deleteLastActivity(@PathVariable int taskId) {
+        try {
+            activityService.deleteLastActivityFromTask(taskId);
+            return ResponseEntity.ok("Activity deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
 
 
 }

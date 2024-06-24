@@ -6,6 +6,7 @@ import com.uade.backendgestionbd2.model.Activities;
 import com.uade.backendgestionbd2.model.Tasks;
 import com.uade.backendgestionbd2.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -82,4 +83,27 @@ public class ActivityService {
 
         return activities;
     }
+
+    public ResponseEntity<Object> deleteLastActivityFromTask(int taskId){
+        List<Activities> activities = activityRepository.findByTaskId(taskId);
+        if (activities.isEmpty()) {
+            return ResponseEntity.badRequest().body("No activities found for task with ID " + taskId);
+        }
+        Activities lastActivity = activities.getLast();
+        activityRepository.delete(lastActivity);
+        activities.remove(lastActivity);
+        if (activities.isEmpty()) {
+            Tasks task = taskService.getTaskById(taskId);
+            task.setStatus(0);
+            taskService.updateTask(task);
+        }else{
+            Activities newLastActivity = activities.getLast();
+            Tasks task = taskService.getTaskById(newLastActivity.getTask_id());
+            task.setStatus(newLastActivity.getProgress_percentage());
+            taskService.updateTask(task);
+        }
+        return ResponseEntity.ok("Activity deleted successfully");
+
+    }
+
 }
