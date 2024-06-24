@@ -1,6 +1,7 @@
 package com.uade.backendgestionbd2.service;
 
 
+import com.uade.backendgestionbd2.dto.ActivitiesRequest;
 import com.uade.backendgestionbd2.model.Activities;
 import com.uade.backendgestionbd2.model.Tasks;
 import com.uade.backendgestionbd2.repository.ActivityRepository;
@@ -17,13 +18,20 @@ public class ActivityService {
     @Autowired
     private TaskService taskService;
 
-    public void addActivity(Activities activity) {
+    public void addActivity(ActivitiesRequest activity) {
         int taskId = activity.getTask_id();
         int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
         if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
             throw new RuntimeException("User is not assigned to this task");
         }
-       activityRepository.save(activity);
+        Activities newActivity = new Activities();
+        newActivity.setTask_id(taskId);
+        newActivity.setUser_id(activity.getUser_id());
+        newActivity.setProgress_percentage(activity.getProgress_percentage());
+        newActivity.setTimestamp(activity.getTimestamp());
+        newActivity.setDescription(activity.getDescription());
+        newActivity.setTime_worked(activity.getTime_worked());
+        activityRepository.save(newActivity);
         int progress = activity.getProgress_percentage();
         Tasks task = taskService.getTaskById(taskId);
         task.setStatus(progress);

@@ -34,6 +34,7 @@ public class ActivityController {
             if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
                 throw new RuntimeException("User is not assigned to this task");
             }
+            activityService.addActivity(activity);
             // Lógica para agregar la actividad (no se muestra aquí)
             response.put("message", "Activity added successfully");
             return ResponseEntity.ok(response);
