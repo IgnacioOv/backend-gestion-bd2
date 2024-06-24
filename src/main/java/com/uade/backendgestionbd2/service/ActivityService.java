@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityService {
@@ -21,20 +24,28 @@ public class ActivityService {
 
     public void addActivity(ActivitiesRequest activity) {
         int taskId = activity.getTask_id();
-        int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
-        if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
+        int userId = Integer.parseInt(activity.getUser_id());
+
+        // Verificar si el usuario está asignado a esta tarea
+        Tasks task = taskService.getTaskById(taskId);
+        if (task.getUser().getUser_id() != userId) {
             throw new RuntimeException("User is not assigned to this task");
         }
+
+        // Crear la nueva actividad
         Activities newActivity = new Activities();
         newActivity.setTask_id(taskId);
         newActivity.setUser_id(activity.getUser_id());
         newActivity.setProgress_percentage(activity.getProgress_percentage());
-        newActivity.setTimestamp(activity.getTimestamp());
+        newActivity.setTimestamp(new Date());  // Establecer el timestamp actual
         newActivity.setDescription(activity.getDescription());
         newActivity.setTime_worked(activity.getTime_worked());
+
+        // Guardar la actividad en la base de datos
         activityRepository.save(newActivity);
+
+        // Actualizar el estado de la tarea
         int progress = activity.getProgress_percentage();
-        Tasks task = taskService.getTaskById(taskId);
         task.setStatus(progress);
         taskService.updateTask(task);
     }
@@ -78,8 +89,18 @@ public class ActivityService {
     public List<Activities> getActivitiesByTaskId(int taskId) {
         List<Activities> activities = activityRepository.findByTaskId(taskId);
 
-        // Ordenar actividades por timestamp de forma descendente (más nuevo primero)
-        activities.sort(Comparator.comparing(Activities :: getTimestamp).reversed());
+        if (activities != null) {
+            // Filtrar actividades que tienen timestamp null
+            activities = activities.stream()
+                    .filter(activity -> activity.getTimestamp() != null)
+                    .collect(Collectors.toList());
+            // Ordenar actividades por timestamp de forma descendente (más nuevo primero)
+            activities.sort(Comparator.comparing(Activities::getTimestamp).reversed());
+
+        } else {
+            // Si la lista es null, devolver una lista vacía en lugar de null
+            activities = new ArrayList<>();
+        }
 
         return activities;
     }
