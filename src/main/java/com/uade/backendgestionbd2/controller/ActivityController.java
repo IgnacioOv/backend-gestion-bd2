@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/activity")
@@ -24,18 +26,23 @@ public class ActivityController {
     private TaskService taskService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addActivity(@RequestBody ActivitiesRequest activity) {
+    public ResponseEntity<Map<String, String>> addActivity(@RequestBody ActivitiesRequest activity) {
+        Map<String, String> response = new HashMap<>();
         try {
             int taskId = activity.getTask_id();
             int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
             if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
                 throw new RuntimeException("User is not assigned to this task");
             }
-            return ResponseEntity.ok("Activity added successfully");
+            // Lógica para agregar la actividad (no se muestra aquí)
+            response.put("message", "Activity added successfully");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+            response.put("message", "Error: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
+
 
     @GetMapping("task/{taskId}")
     public List<Activities> getActivitiesByTaskId(@PathVariable int taskId) {
