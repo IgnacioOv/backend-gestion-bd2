@@ -8,6 +8,7 @@ import com.uade.backendgestionbd2.service.ActivityService;
 import com.uade.backendgestionbd2.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,13 +51,20 @@ public class ActivityController {
         return activityService.getActivitiesByTaskId(taskId);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<String> updateActivity(@RequestBody Activities activity) {
+    @PutMapping("/update")
+    public ResponseEntity<Object> updateActivity(@RequestBody Activities activity) {
         try {
             activityService.updateActivity(activity);
-            return ResponseEntity.ok("Activity updated successfully");
+            // Crear un HashMap para la respuesta de éxito
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Activity updated successfully");
+            return ResponseEntity.ok().body(response);
+
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+            // En caso de error, devolver un HashMap con el mensaje de error
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
