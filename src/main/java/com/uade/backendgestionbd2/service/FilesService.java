@@ -46,8 +46,9 @@ public class FilesService {
                     .setUnderline();  // Subrayado
             document.add(infoTareasTitle);
             for (Tasks task : tasks) {
+                String responsable = (task.getUser() != null) ? task.getUser().getName() + " " + task.getUser().getLast_name() : "Usuario no asignado";
                 Paragraph tareaInfo = new Paragraph("Nombre de la tarea: " + task.getName() +
-                        " : " + task.getStatus() + "% y Responsable: " + task.getUser().getName())
+                        " : " + task.getStatus() + "% y Responsable: " + responsable)
                         .setMarginLeft(20);  // Indentación para mayor claridad
                 document.add(tareaInfo);
             }
@@ -136,7 +137,14 @@ public class FilesService {
                 Row tareaRow = sheet.createRow(rowNum++);
                 tareaRow.createCell(0).setCellValue("Nombre de la tarea: " + task.getName());
                 tareaRow.createCell(1).setCellValue("Porcentaje de tarea: " + task.getStatus() + "%");
-                tareaRow.createCell(2).setCellValue("Responsable: " + task.getUser().getName());
+
+                // Verificar si hay usuario asignado
+                if (task.getUser() != null) {
+                    String responsable = task.getUser().getName() + " " + task.getUser().getLast_name();
+                    tareaRow.createCell(2).setCellValue("Responsable: " + responsable);
+                } else {
+                    tareaRow.createCell(2).setCellValue("Responsable: Usuario no asignado");
+                }
             }
 
             // Personal asignado al proyecto
