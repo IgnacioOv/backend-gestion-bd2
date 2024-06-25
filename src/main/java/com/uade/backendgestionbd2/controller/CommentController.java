@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -28,7 +29,8 @@ public class CommentController {
         // Implementación
         Comments comments = new Comments(comment.getTaskId(), comment.getUserId(), comment.getComment(), LocalDate.now());
         commentService.createComment(comments);
-        return ResponseEntity.status(HttpStatus.CREATED).body(comments);
+        Map<String, String> response = Map.of("message", "Comment created");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     //delete comment
