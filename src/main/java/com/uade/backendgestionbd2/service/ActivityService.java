@@ -4,6 +4,7 @@ package com.uade.backendgestionbd2.service;
 import com.uade.backendgestionbd2.dto.ActivitiesRequest;
 import com.uade.backendgestionbd2.model.Activities;
 import com.uade.backendgestionbd2.model.Tasks;
+import com.uade.backendgestionbd2.model.Users;
 import com.uade.backendgestionbd2.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,11 @@ public class ActivityService {
 
         // Verificar si el usuario está asignado a esta tarea
         Tasks task = taskService.getTaskById(taskId);
-        if (task.getUser().getUser_id() != userId) {
+        Users user = taskService.getTaskById(taskId).getUser();
+        if(user == null){
+            throw new RuntimeException("task not assigned user");
+        }
+        if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
             throw new RuntimeException("User is not assigned to this task");
         }
 
@@ -53,6 +58,10 @@ public class ActivityService {
     public void updateActivity(Activities activity) {
         int taskId = activity.getTask_id();
         int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
+        Users user = taskService.getTaskById(taskId).getUser();
+        if(user == null){
+            throw new RuntimeException("task not assigned user");
+        }
         if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
             throw new RuntimeException("User is not assigned to this task");
         }

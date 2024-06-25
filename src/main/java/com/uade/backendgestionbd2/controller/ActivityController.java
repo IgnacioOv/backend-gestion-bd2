@@ -32,9 +32,6 @@ public class ActivityController {
         try {
             int taskId = activity.getTask_id();
             int userId = Integer.parseInt(activity.getUser_id()); // Convertir String a int si userId es un String
-            if (taskService.getTaskById(taskId).getUser().getUser_id() != userId) {
-                throw new RuntimeException("User is not assigned to this task");
-            }
             activityService.addActivity(activity);
             // Lógica para agregar la actividad (no se muestra aquí)
             response.put("message", "Activity added successfully");
