@@ -36,15 +36,17 @@ public class ProjectAssignmentController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteUserFromProject(@RequestBody ProjectAssignmentDto projectAssignment) {
+    public ResponseEntity<Map<String, String>> deleteUserFromProject(@RequestBody ProjectAssignmentDto projectAssignment) {
         int userId = projectAssignment.getUserId();
         int projectId = projectAssignment.getProjectId();
-
+        Map<String, String> response = new HashMap<>();
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(projectAssignmentsService.deleteAssignment(projectId, userId));
+            projectAssignmentsService.deleteAssignment(projectId, userId);
+            response.put("message", "User deleted from project successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
 }
 
