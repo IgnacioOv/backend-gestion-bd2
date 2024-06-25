@@ -26,12 +26,11 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-//                        .requestMatchers("auth/register").hasAnyAuthority(Roles.Admin.name())
-//                        .requestMatchers("projects/add","projects/delete/","projects/update/").hasAnyAuthority(Roles.Admin.name())
-//                        .requestMatchers("auth/authenticate").permitAll()
+                       .requestMatchers("auth/register").hasAnyAuthority(Roles.Admin.name())
+                        .requestMatchers("projects/add","projects/delete/","projects/update/").hasAnyAuthority(Roles.Admin.name())
+                        .requestMatchers("auth/authenticate").permitAll()
                         .anyRequest()
                         .permitAll())
-//                        .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
