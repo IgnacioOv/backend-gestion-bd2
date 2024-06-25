@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -33,8 +36,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(service.authenticate(request));
+    public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequest request) {
+        Map<String, String> badResponse = new HashMap<>();
+        try {
+            return ResponseEntity.ok(service.authenticate(request));
+        }
+        catch (Exception e) {
+            badResponse.put("message", "Error: " + e.getMessage());
+            return ResponseEntity.badRequest().body(badResponse);
+        }
     }
 }
