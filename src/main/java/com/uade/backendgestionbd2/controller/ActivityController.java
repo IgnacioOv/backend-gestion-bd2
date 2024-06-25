@@ -85,13 +85,18 @@ public class ActivityController {
         return activityService.getActivityById(activityId);
     }
 
-    @DeleteMapping("/delete/task/{taskId}")
-    public ResponseEntity<Object> deleteLastActivity(@PathVariable int taskId) {
+    @DeleteMapping("/delete/task/{taskId}/{userId}")
+    public ResponseEntity<Object> deleteLastActivity(@PathVariable int taskId, @PathVariable int userId) {
         try {
-            activityService.deleteLastActivityFromTask(taskId);
-            return ResponseEntity.ok("Activity deleted successfully");
+            activityService.deleteLastActivityFromTask(taskId, userId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Activity deleted successfully");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+            // En caso de error, devolver un HashMap con el mensaje de error
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 

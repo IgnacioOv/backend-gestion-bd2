@@ -105,12 +105,14 @@ public class ActivityService {
         return activities;
     }
 
-    public ResponseEntity<Object> deleteLastActivityFromTask(int taskId){
+    public String deleteLastActivityFromTask(int taskId, int userId) {
         List<Activities> activities = activityRepository.findByTaskId(taskId);
-        if (activities.isEmpty()) {
-            return ResponseEntity.badRequest().body("No activities found for task with ID " + taskId);
-        }
+
         Activities lastActivity = activities.getLast();
+        int userIdAssign = Integer.parseInt(lastActivity.getUser_id());
+        if (userIdAssign != userId) {
+            throw new RuntimeException("User is not assigned to this task");
+        }
         activityRepository.delete(lastActivity);
         activities.remove(lastActivity);
         if (activities.isEmpty()) {
@@ -123,7 +125,7 @@ public class ActivityService {
             task.setStatus(newLastActivity.getProgress_percentage());
             taskService.updateTask(task);
         }
-        return ResponseEntity.ok("Activity deleted successfully");
+        return "Activity deleted successfully";
 
     }
 
